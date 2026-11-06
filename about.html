@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>ABOUT — PULSE</title>
+    <link rel="icon" href="favicon.png">
+    <link rel="stylesheet" href="css/font.css">
+    <link rel="stylesheet" href="css/about.css">
+    <script src="js/about.js" defer></script>
+</head>
+
+<body>
+    <main>
+        <section class="about-intro" id="about" aria-label="ABOUT PULSE">
+            <div class="about-stage" id="stage">
+                <video id="movie" class="about-movie" autoplay muted loop playsinline preload="auto"
+                    aria-label="PULSE 브랜드 소개 영상">
+                    <!-- 비디오 교체하기 -->
+                    <source src="images/about/section2_video%20.mp4" type="video/mp4">
+                    <!-- 비디오 교체하기 -->
+                </video>
+                <div class="about-photo" id="photo"></div>
+                <svg class="about-cover" id="cover" aria-hidden="true" preserveAspectRatio="none">
+                    <defs>
+                        <mask id="videoLetters" maskUnits="userSpaceOnUse" maskContentUnits="userSpaceOnUse">
+                            <rect id="maskBase" width="100%" height="100%" fill="white" /><text id="maskWord"
+                                fill="black" text-anchor="middle" dominant-baseline="central"
+                                font-family="Anton, sans-serif" font-weight="400">CHALLENGE</text>
+                        </mask>
+                    </defs>
+                    <rect width="100%" height="100%" fill="#0c0c0c" mask="url(#videoLetters)" />
+                </svg>
+                <header class="about-header" id="header"><a href="index.html" aria-label="PULSE HOME"><img
+                            src="images/about/sub_main_logo.svg" alt="PULSE"></a><a class="about-home"
+                        href="index.html">HOME</a></header>
+                <div class="about-copy" id="copy">
+                    <h1>WE CREATE A PLACE WHERE<br>EVERYONE CAN <span id="word">CHALLENGE</span> THEIR OWN LIMITS</h1>
+                    <p>우리는 도전하는 모든 순간에 가치를 둡니다.<br>누구나 자신의 가능성을 발견하고, 한계를 넘어설 수 있도록 PULSE는 새로운 도전의 무대를 만들어갑니다.</p>
+                </div>
+                <img class="about-heart" id="heart" src="images/about/sub_main_icon.svg" alt="" aria-hidden="true">
+                <section class="about-we" id="caption" aria-label="WE ARE" aria-hidden="true">
+                    <div class="we-heading">
+                        <h2>WE ARE</h2><span class="we-stroke" aria-hidden="true"></span>
+                        <h3>EVERY CHALLENGE<br>BEGINS WITH A BEAT.</h3>
+                    </div>
+                    <!-- <div class="we-copy">
+                        <p>우리는 스포츠의 진정한 가치가 승리와 기록을 넘어,<br>자신의 한계에 도전하는 과정에 있다고 믿습니다.</p>
+                        <p>PULSE는 이러한 믿음에서 시작된<br>실내 스포츠 컴페티션 브랜드입니다.</p>
+                        <p class="we-ending">우리는 모든 도전이<br>새로운 가능성의 시작이 되는 순간을 만들어갑니다.</p>
+                    </div> -->
+                </section>
+            </div>
+        </section>
+        <section class="about-values" aria-labelledby="values-title">
+            <div class="values-inner">
+                <h2 id="values-title">OUR<br>VALUES</h2>
+                <article class="value-card value-01"><img src="images/about/secion3_img1.png" alt="도전의 시작">
+                    <h3><span>01</span>CHALLENGE</h3>
+                    <div class="value-copy">
+                        <h4>도전의 시작</h4>
+                        <p>우리는 누구나 자신의 한계를 시험하고<br>새로운 가능성을 발견할 기회를 가져야 한다고 믿습니다.</p>
+                    </div>
+                </article>
+                <article class="value-card value-02"><img src="images/about/section3_img2.png" alt="에너지가 모이는 곳">
+                    <h3><span>02</span>ENERGY</h3>
+                    <div class="value-copy">
+                        <h4>에너지가 모이는 곳</h4>
+                        <p>서로 다른 도전과 열정이 만나<br>하나의 강렬한 스포츠 경험을 만들어갑니다.</p>
+                    </div>
+                </article>
+                <article class="value-card value-03"><img src="images/about/section3_img3.png" alt="한계를 넘어">
+                    <h3><span>03</span>BEYOND</h3>
+                    <div class="value-copy">
+                        <h4>한계를 넘어</h4>
+                        <p>우리는 승패를 넘어 자신의 기록에 도전하고<br>성장하는 모든 순간에 가치를 둡니다.</p>
+                    </div>
+                </article>
+            </div>
+
+        </section>
+    </main>
+    <footer>
+        <div class="footer-grid">
+            <div class="contact-card">
+                <h2>CONTACT</h2><img src="images/main/footer_card_logo.svg" alt="">
+                <p>EMAIL <a href="mailto:cmy1391@gmail.com">cmy1391@gmail.com</a></p>
+            </div>
+            <div class="info-card">
+                <h2>INFO</h2>
+                <p>ADDRESS &nbsp; &nbsp;부산광역시<br>TEL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;(051)</p>
+            </div>
+            <div class="footer-links">
+                <nav aria-label="하단 메뉴"><a href="about.html">ABOUT</a><a href="index.html#format">FORMAT</a><a
+                        href="index.html#kit">OFFICIAL
+                        KIT</a><a href="index.html#gallery">GALLERY</a><a href="index.html#join">JOIN PULSE</a>
+                    <a href="mailto:cmy1391@gmail.com">CONTACT</a>
+                </nav>
+                <div class="socials"><span class="yt">
+                        <h5>Youtube</h5>
+                    </span><span class="fb">
+                        <h5>Facebook</h5>
+                    </span><span class="ins">
+                        <h5>Instagram</h5>
+                    </span></div>
+            </div>
+        </div>
+        <!-- <div class="footer-line"></div> -->
+        <!-- 심박그래프 -->
+        <div class="footer-line">
+            <svg viewBox="0 0 1920 130" preserveAspectRatio="none" aria-hidden="true">
+                <!-- 기본 심박선 -->
+                <path class="heartbeat-base"
+                    d="M0 65 H1390 L1440 65 L1470 49 L1500 83 L1530 12 L1570 118 L1600 45 L1630 65 H1920"
+                    pathLength="1" />
+
+                <!-- 움직이는 네온 빛 -->
+                <path class="heartbeat-light"
+                    d="M0 65 H1390 L1440 65 L1470 49 L1500 83 L1530 12 L1570 118 L1600 45 L1630 65 H1920"
+                    pathLength="1" />
+            </svg>
+        </div>
+
+
+
+
+        <p class="closing">LET’S MAKE IT HAPPEN</p>
+    </footer>
+    <!-- 원형 퀵 내비게이션: 각 목적지는 링크의 href에서 변경합니다. -->
+    <!-- HOME 버튼 -->
+    <a href="index.html#top" class="pulse-quick-nav visible" aria-label="HOME">
+        <span class="center">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m3 10 9-7 9 7v10H3zM9 20v-7h6v7" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        </span>
+    </a>
+
+
+    <!-- 마우스포인터 -->
+    <!-- PULSE CUSTOM CURSOR -->
+    <div class="pulse-cursor" aria-hidden="true">
+        <span class="cursor-arm top"></span>
+        <span class="cursor-arm right"></span>
+        <span class="cursor-arm bottom"></span>
+        <span class="cursor-arm left"></span>
+
+        <span class="cursor-corner tl"></span>
+        <span class="cursor-corner tr"></span>
+        <span class="cursor-corner bl"></span>
+        <span class="cursor-corner br"></span>
+    </div>
+    <!-- 마우스포인터 -->
+</body>
+
+</html>

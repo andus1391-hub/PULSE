@@ -1,0 +1,2526 @@
+:root {
+    --pink: #ed008a;
+    --yellow: #f3f20c;
+    --black: #0C0C0C;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+html {
+    scroll-behavior: smooth;
+
+    /* 전체 페이지 세로 스크롤바 */
+    scrollbar-width: thin;
+    scrollbar-color: #ed008a #101010;
+}
+
+/* Chrome, Edge, Safari */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #101010;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #ed008a;
+    border-radius: 10px;
+    border: 2px solid #101010;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ff4db0;
+}
+
+/* 마우스 커서 이벤트*/
+/* =========================================
+   PULSE CUSTOM CURSOR — PC
+========================================= */
+
+/* 기존 마우스 포인터 숨기기 */
+html,
+body,
+body * {
+    cursor: none !important;
+}
+
+/* 기본 네온 십자 커서 */
+.pulse-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 2147483647;
+    pointer-events: none;
+    color: #ff237e;
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0);
+    transition: color .2s ease, scale .15s ease;
+}
+
+/* 십자 형태 */
+.pulse-cursor .cursor-arm,
+.pulse-afterimage .cursor-arm {
+    position: absolute;
+    display: block;
+    background: currentColor;
+    box-shadow:
+        0 0 5px currentColor,
+        0 0 10px currentColor;
+}
+
+.pulse-cursor .top,
+.pulse-afterimage .top {
+    width: 2px;
+    height: 6px;
+    top: 0;
+    left: 9px;
+}
+
+.pulse-cursor .bottom,
+.pulse-afterimage .bottom {
+    width: 2px;
+    height: 6px;
+    bottom: 0;
+    left: 9px;
+}
+
+.pulse-cursor .left,
+.pulse-afterimage .left {
+    width: 6px;
+    height: 2px;
+    top: 9px;
+    left: 0;
+}
+
+.pulse-cursor .right,
+.pulse-afterimage .right {
+    width: 6px;
+    height: 2px;
+    top: 9px;
+    right: 0;
+}
+
+/* TARGET FRAME 모서리 */
+.pulse-cursor .cursor-corner {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    opacity: 0;
+    border: 2px solid currentColor;
+    transition: opacity .2s ease;
+}
+
+.pulse-cursor .tl {
+    top: 0;
+    left: 0;
+    border-right: 0;
+    border-bottom: 0;
+}
+
+.pulse-cursor .tr {
+    top: 0;
+    right: 0;
+    border-left: 0;
+    border-bottom: 0;
+}
+
+.pulse-cursor .bl {
+    bottom: 0;
+    left: 0;
+    border-top: 0;
+    border-right: 0;
+}
+
+.pulse-cursor .br {
+    bottom: 0;
+    right: 0;
+    border-top: 0;
+    border-left: 0;
+}
+
+/* 버튼, 링크 호버 시 흰색 프레임 */
+.pulse-cursor.is-hover {
+    color: #fff;
+}
+
+.pulse-cursor.is-hover .cursor-arm {
+    opacity: 0;
+}
+
+.pulse-cursor.is-hover .cursor-corner {
+    opacity: 1;
+    filter: drop-shadow(0 0 4px #fff);
+}
+
+/* 클릭 시 축소 */
+.pulse-cursor.is-click {
+    scale: .75;
+}
+
+/* 잔상: 마우스가 지나간 자리에 고정 */
+.pulse-afterimage {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    z-index: 2147483646;
+    pointer-events: none;
+    color: #ff237e;
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0);
+    filter: blur(1.2px);
+    will-change: opacity;
+}
+
+/* 잔상 소멸 */
+.pulse-afterimage.is-active {
+    animation: pulse-afterimage-fade .55s ease-out forwards;
+}
+
+@keyframes pulse-afterimage-fade {
+    from {
+        opacity: .38;
+        filter: blur(1.2px);
+    }
+
+    to {
+        opacity: 0;
+        filter: blur(3px);
+    }
+}
+
+/* 모션 최소화 설정 */
+@media (prefers-reduced-motion: reduce) {
+    html,
+    body,
+    body * {
+        cursor: auto !important;
+    }
+
+    .pulse-cursor,
+    .pulse-afterimage {
+        display: none !important;
+    }
+}
+/* 마우스 커서 이벤트*/
+
+
+
+body {
+    margin: 0;
+    background: var(--black);
+    color: white;
+    font-family: 'Escoredream';
+    font-weight: 400;
+}
+
+button,
+input {
+    font: inherit
+}
+
+button,
+a,
+input {
+    -webkit-tap-highlight-color: transparent
+}
+
+button {
+    cursor: pointer
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+.gallery:focus-visible {
+    outline: 3px solid var(--pink);
+    outline-offset: 5px
+}
+
+h1,
+h2,
+h3,
+p,
+figure {
+    margin: 0
+}
+
+img {
+    display: block;
+    max-width: 100%
+}
+
+section {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-header {
+    position: absolute;
+    z-index: 5;
+    inset: 28px 3.2% auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.hero-header .logo {
+    width: clamp(130px, 15.6vw, 100px);
+}
+
+.hero-header .about-link {
+    font-family: 'Gunhamimalmunteuyeot';
+    font-size: clamp(22px, 2vw, 32px);
+}
+.hero-header .about-link:hover{
+    color: var(--pink);
+    transition: all 0.6s;
+}
+
+
+/* banner 시작 — 배경 확대와 문구 등장을 서로 다른 레이어에서 처리합니다. */
+.about {
+    position: relative;
+    height: 100svh;
+    aspect-ratio: auto;
+    overflow: visible;
+    /* sticky의 기준이 스크롤 컨테이너로 바뀌지 않게 유지 */
+    background: var(--black);
+    text-align: center;
+}
+
+/* 조절 1: 340svh = 고정 화면 1개 + 모션에 쓰이는 스크롤 거리 2.4화면 */
+.about.is-banner-ready {
+    height: 300svh;
+}
+
+.banner-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    display: grid;
+    place-items: center;
+    --banner-scale: 1;
+    --rail-opacity: .77;
+}
+
+.banner-visual {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(#0003, #0003), url(../images/main/banner_bg.png) center/cover;
+    /* transform-origin: left top; */
+    /* 첨부 이미지처럼 왼쪽 위에 붙은 상태에서 확대 */
+    /* transform: scale(var(--banner-scale)); */
+    will-change: transform;
+}
+
+.about-copy {
+    width: min(80%, 1440px);
+    position: relative;
+    z-index: 2;
+}
+
+.about h2 {
+    font: clamp(24px, 2.6vw, 50px)/1.3 Anton, Impact, sans-serif;
+    letter-spacing: .24em;
+    color: #db3588;
+    margin-bottom: clamp(24px, 4vw, 76px);
+}
+
+.about h3 {
+    font-size: clamp(16px, 1.6vw, 31px);
+    font-weight: 400;
+    line-height: 1.7;
+    margin-bottom: clamp(20px, 2.7vw, 50px);
+}
+
+.about p {
+    font-size: clamp(12px, 1.12vw, 22px);
+    line-height: 2.8;
+    text-wrap: pretty;
+}
+
+.about p+p {
+    margin-top: clamp(25px, 3.5vw, 66px);
+}
+
+/* transform + opacity만 변경하여 스크롤 중 레이아웃 재계산을 줄입니다. */
+.is-banner-ready .about-copy>* {
+    will-change: transform, opacity;
+    opacity: 0;
+    /* 조절: 900ms = 한 번의 등장 시간. 스크롤을 멈춰도 끝까지 부드럽게 재생합니다. */
+    transition: transform 900ms cubic-bezier(.22, 1, .36, 1), opacity 900ms ease;
+}
+
+.is-banner-ready .about-copy>h2,
+.is-banner-ready .about-copy>h3,
+.is-banner-ready .about-copy>p {
+    transform: translate3d(0, -90px, 0);
+    transition-delay: 0.5s;
+}
+
+/* .is-banner-ready .about-copy>p {
+    transform: translate3d(0, 90px, 0);
+} */
+
+.is-banner-ready.has-headings .about-copy>h2,
+.is-banner-ready.has-headings .about-copy>h3,
+.is-banner-ready.has-paragraphs .about-copy>p {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+
+/* 배경 확대 완료 시 레일 표시. 이후 흐름은 CSS animation의 시간에만 연동됩니다. */
+.is-banner-ready {
+    --rail-opacity: 0;
+}
+
+.is-banner-ready .banner-stage {
+    --rail-opacity: 0;
+}
+
+.is-banner-ready.is-banner-expanded .banner-stage {
+    --rail-opacity: .77;
+}
+
+.about .side {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 7.2%;
+    overflow: hidden;
+    color: var(--yellow);
+    opacity: var(--rail-opacity);
+    pointer-events: none;
+    transition: opacity 0.8s ease;
+    transition-delay: 0.2s;
+}
+
+.about .side.left {
+    left: .5%;
+}
+
+.about .side.right {
+    right: .5%;
+}
+
+.banner-rail-track {
+    display: flex;
+    flex-direction: column;
+    will-change: transform;
+}
+
+.banner-rail-track span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    white-space: nowrap;
+    height: max(100svh, 56vw);
+    flex-shrink: 0;
+    padding: 24px 0;
+    font: 6.5vw/1 Anton, Impact, sans-serif;
+}
+
+.left .banner-rail-track span {
+    transform: rotate(180deg);
+}
+
+/* 조절 2: 36s를 키우면 더 느리게 흐릅니다. 두 동일 문구 중 한 문구만큼(-50%) 이동해 반복. */
+.left .banner-rail-track {
+    animation: banner-flow 36s linear infinite;
+}
+
+.right .banner-rail-track {
+    animation: banner-flow 36s linear infinite reverse;
+}
+
+@keyframes banner-flow {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(-50%);
+    }
+}
+
+/* 화면 밖에서는 반복 애니메이션을 멈춰 불필요한 그리기를 줄입니다. */
+.about:not(.is-banner-visible) .banner-rail-track {
+    animation-play-state: paused;
+}
+
+.is-banner-ready:not(.is-banner-expanded) .banner-rail-track {
+    animation-play-state: paused;
+}
+
+/* banner 끝 */
+
+
+
+.format {
+    padding: 9vw 7% 6vw;
+}
+
+.format>h2 {
+    font-family: 'A2z';
+    font-weight: 800;
+    text-align: center;
+    font-size: clamp(24px, 2.5vw, 48px);
+    letter-spacing: .5em;
+    margin-bottom: 3vw;
+}
+
+.format-content {
+    position: relative
+}
+
+.format-row .number {
+    font-family: "Anton", sans-serif;
+    font-size: clamp(20px, 1.5625vw, 30px);
+}
+
+.format-row {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #777;
+    background: transparent;
+    color: white;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    gap: 3vw;
+    padding: 2.4vw 1.5vw;
+    min-height: 6.8vw;
+    transition: color .2s
+}
+
+.format-row:last-child {
+    border-bottom: 0
+}
+
+.format-row:hover,
+.format-row:focus-visible {
+    color: var(--pink)
+}
+
+.format-row b {
+    font: 1.6vw Anton, Impact, sans-serif;
+    width: 8vw;
+    flex-shrink: 0
+}
+
+.format-row span {
+    font-size: 1.12vw;
+    max-width: 45%;
+}
+
+.format-row:first-child span {
+    padding-left: 50px;
+}
+
+.format-row:nth-child(2) span,
+.format-row:nth-child(3) span {
+    padding-left: 43px;
+}
+
+
+
+#format-image {
+    position: absolute;
+    right: 9%;
+    top: -1vw;
+    width: 21%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+#format-image.show {
+    opacity: 1;
+}
+
+/* FORMAT 이미지별 세로 위치 */
+
+/* 01 SPRINT - 기존 위치 유지 */
+#format-image.img-1 {
+    top: -1vw;
+}
+
+/* 02 POWER */
+#format-image.img-2 {
+    top: 3vw;
+}
+
+/* 03 AGILITY */
+#format-image.img-3 {
+    top: 7vw;
+}
+
+/* 04 ENDURANCE */
+#format-image.img-4 {
+    top: 11vw;
+}
+
+/* 05 FINAL RUSH */
+#format-image.img-5 {
+    top: 15vw;
+}
+
+
+.manifesto .photo {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.manifesto .photo>img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.manifesto .photo h2 {
+    position: absolute;
+    font: 7vw/1 Anton, Impact, sans-serif;
+    right: 5.5%;
+    bottom: 10%
+}
+
+.manifesto .photo:nth-child(2) h2 {
+    right: auto;
+    left: 18%;
+    top: 25%;
+    bottom: auto
+}
+
+.manifesto .photo:nth-child(3) h2 {
+    top: 12%;
+    bottom: auto;
+    right: 8%
+}
+
+/* SECTION2: 스크롤 구간만 길게 두고 실제 사진 세 장은 한 화면에 겹칩니다. */
+.manifesto.manifesto-running {
+    height: 900vh;
+    overflow: visible;
+    pointer-events: none;
+}
+
+.manifesto.manifesto-running .manifesto-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.manifesto.manifesto-running .photo {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    backface-visibility: hidden;
+    will-change: clip-path, transform;
+}
+
+.manifesto.manifesto-running .photo>img {
+    will-change: transform;
+}
+
+.manifesto.manifesto-running .photo h2 {
+    white-space: nowrap;
+    will-change: transform, opacity;
+}
+
+/* SECTION2 끝. JS 미실행 또는 모션 감소 설정에서는 세 장을 일반 스크롤로 읽습니다. */
+
+/* MAIN — 기존 V5 터널과 마지막 브랜드 화면 */
+.main {
+    position: relative;
+    overflow: visible;
+    /* V5의 700vh(고정 화면 100vh + 전진 거리 600vh)에 완성 장면 유지용 50vh를 더합니다. */
+    height: 750vh;
+    background: #080808;
+    color: white;
+    font: normal 16px/normal Arial, sans-serif;
+}
+
+.main .tunnel-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    background: radial-gradient(ellipse at center, #191919 0%, #080808 65%);
+}
+
+.main .tunnel-world {
+    position: absolute;
+    inset: 0;
+    perspective: 700px;
+    perspective-origin: 50% 50%;
+    overflow: hidden;
+}
+
+.main .tunnel-space {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+
+/* V5 확대 버전의 게이트 치수와 양쪽 사각형 각도를 그대로 사용합니다. */
+.main .tunnel-gate {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1060px;
+    height: 600px;
+    transform-style: preserve-3d;
+    pointer-events: none;
+}
+
+.main .tunnel-side {
+    position: absolute;
+    top: 0;
+    width: 156px;
+    height: 100%;
+    background: #e9f500;
+    box-shadow: 0 0 35px #d6f5002b;
+}
+
+.main .tunnel-left {
+    left: 0;
+    transform: skewY(12deg);
+}
+
+.main .tunnel-right {
+    right: 0;
+    transform: skewY(-12deg);
+}
+
+.main .tunnel-word {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-size: clamp(68px, 10vw, 138px);
+    font-weight: 1000;
+    font-style: italic;
+    letter-spacing: -.055em;
+    text-shadow: 0 6px 0 #000;
+    white-space: nowrap;
+}
+
+/* 자동 오프닝: 기존 게이트의 색상·너비·모바일 규칙을 공유합니다. */
+.main .tunnel-intro {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background: #080808;
+    pointer-events: none;
+    --opening-height: 600px;
+    --opening-offset: 452px;
+    --spread: 0;
+}
+
+.main .tunnel-intro .tunnel-side {
+    left: 50%;
+    top: 50%;
+    height: var(--opening-height);
+    opacity: 0;
+}
+
+.main .tunnel-opening-left {
+    transform: translate(calc(-50% - var(--opening-offset) * var(--spread)), -50%) skewY(12deg);
+}
+
+.main .tunnel-opening-right {
+    transform: translate(calc(-50% + var(--opening-offset) * var(--spread)), -50%) skewY(-12deg);
+}
+
+.main .tunnel-intro .tunnel-word {
+    opacity: 0;
+    text-shadow: none;
+}
+
+.main .tunnel-finish {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 4;
+    background: #080808;
+}
+
+/* MAIN 마지막 장면 배경이미지: 여기에 background-image: url(...); 추가 */
+.main .main-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.main .finish-brand {
+    position: relative;
+    z-index: 1;
+}
+
+/* MAIN 중앙 브랜드 로고 */
+.main .finish-logo {
+    width: 400px;
+    /* 로고 크기 조절 */
+    max-width: 80vw;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+/* 로고 완성 후 300ms 대기, 900ms 동안 헤더 등장 */
+.main .hero-header {
+    opacity: 0;
+    transform: translateY(-30px);
+    transition: opacity 600ms ease, transform 600ms cubic-bezier(.22, 1, .36, 1);
+}
+
+.main.has-brand .hero-header {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0ms;
+}
+
+/* HOME으로 돌아오면 완성 장면 한 화면에서 바로 ABOUT으로 이어집니다. */
+.main.is-home {
+    height: 100vh;
+}
+
+.main.is-home .hero-header {
+    transition: none;
+}
+
+.main.is-home .tunnel-world {
+    visibility: hidden;
+}
+
+.main.is-resetting .hero-header {
+    transition: none;
+}
+
+.main .tunnel-finish small {
+    display: block;
+    text-align: center;
+    letter-spacing: .4em;
+    font-size: 12px;
+    margin-top: 12px;
+    color: #fff;
+}
+
+.main .tunnel-hint {
+    position: absolute;
+    z-index: 10;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    letter-spacing: .24em;
+    color: #bdbdbd;
+    text-align: center;
+}
+
+.main .tunnel-hint span {
+    font-size: 10px;
+    opacity: .7;
+}
+
+@media (max-width: 700px) {
+    .main .tunnel-intro {
+        --opening-height: 375px;
+        --opening-offset: 262.5px;
+    }
+
+    .main .tunnel-gate {
+        width: 600px;
+        height: 375px;
+    }
+
+    .main .tunnel-side {
+        width: 75px;
+    }
+
+    .main .tunnel-word {
+        font-size: 68px;
+    }
+}
+
+/* MAIN 끝 */
+
+/* ============================section4=============================== */
+.kit {
+    background: #fff;
+    color: #080808;
+    padding: 6.5vw 8%
+}
+
+.kit h2 {
+    font-family: 'A2z';
+    text-align: center;
+    font-size: 2.0833vw;
+    font-weight: 800;
+    margin-bottom: 5vw
+}
+
+.kit-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.1vw
+}
+
+.kit figure {
+    background: var(--black);
+    color: white;
+    overflow: hidden
+}
+
+.kit figure img {
+    width: 100%;
+    height: min(60vh, 570px);
+    /* 이미지 높이 제한 */
+    aspect-ratio: 600/1200;
+    object-fit: cover;
+    object-position: top;
+    transition: transform .4s
+}
+
+.kit figure:hover img {
+    transform: scale(1.035)
+}
+
+.kit figcaption {
+    text-align: center;
+    font-size: 1.8vw;
+    padding: 1.2vw .2vw;
+    background: var(--black);
+    position: relative
+}
+
+
+/* OFFICIAL KIT: 스크롤 동안 화면에 고정되는 4단계 연출 */
+.kit {
+    height: 420vh;
+    padding: 0;
+    background: #080808;
+    overflow: clip;
+}
+
+.kit-stage {
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow: hidden;
+    background: #080808;
+    isolation: isolate;
+}
+
+.kit h2 {
+    position: absolute;
+    z-index: 4;
+    top: 50%;
+    left: 50%;
+    width: max-content;
+    margin: 0;
+    font-size: clamp(30px, 3.2vw, 58px);
+    color: #fff;
+    transform: translate(-50%, -50%);
+    will-change: transform, top, color;
+}
+
+.kit-grid {
+    position: absolute;
+    left: 7.5%;
+    right: 7.5%;
+    top: 22%;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1.1vw;
+    transform-origin: center center;
+    will-change: transform;
+}
+
+.kit figure {
+    min-width: 0;
+    transform-origin: center center;
+    will-change: transform, opacity;
+    opacity: 0;
+}
+
+.kit figure img {
+    width: 100%;
+    aspect-ratio: 600/1200;
+    object-fit: cover;
+    object-position: top;
+}
+
+.kit figcaption {
+    font-size: clamp(12px, 1.8vw, 32px);
+}
+
+@media(max-width:700px) {
+    .kit {
+        height: 340vh
+    }
+
+    .kit-grid {
+        left: 4%;
+        right: 4%;
+        top: 32%;
+        gap: 5px
+    }
+
+    .kit h2 {
+        font-size: 30px
+    }
+
+    .kit figcaption {
+        font-size: 10px;
+        padding: 8px 1px
+    }
+}
+
+@media(prefers-reduced-motion:reduce) {
+    .kit {
+        height: auto;
+        min-height: 100vh;
+        background: #fff
+    }
+
+    .kit-stage {
+        position: relative;
+        background: #fff
+    }
+
+    .kit h2 {
+        color: #080808;
+        top: 9%;
+        font-size: 32px
+    }
+
+    .kit-grid {
+        top: 22%
+    }
+
+    .kit figure {
+        opacity: 1 !important;
+        transform: none !important
+    }
+}
+
+
+/* OFFICIAL KIT — 사선 완성 상태 유지 */
+.kit {
+    overflow: visible;
+}
+
+@media (max-width: 700px) {
+    .kit-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 5px;
+    }
+
+    .kit figure:last-child {
+        grid-column: auto;
+        width: auto;
+        justify-self: stretch;
+    }
+}
+
+/* ======================================section4=========================== */
+
+
+
+
+
+.energy {
+    background: url('../images/main/section5_bg.png') center/cover;
+    padding: 5vw 0 9vw
+}
+
+.energy-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4.5%
+}
+
+.energy h2 {
+    font-family: 'A2z';
+    font-size: 2.5vw;
+    font-weight: 800
+}
+
+.gallery-controls {
+    display: flex;
+    gap: 10px
+}
+
+.gallery-controls button {
+    border: 1px solid #888;
+    background: #141a01;
+    color: white;
+    width: 42px;
+    height: 42px;
+    font-size: 24px
+}
+
+.gallery-controls button:hover {
+    background: var(--yellow);
+    color: black
+}
+
+.energy-copy {
+    text-align: center;
+    margin: 4vw 5%
+}
+
+.energy h3 {
+    font-size: 1.8vw;
+    font-weight: 500
+}
+
+.energy-copy p {
+    font-size: 1.2vw;
+    color: #bbb;
+    margin-top: 1vw
+}
+
+.gallery.swiper {
+    width: 100%;
+    overflow: hidden;
+    padding: 0 1.4% 30px;
+    cursor: grab;
+}
+
+.gallery .swiper-slide {
+    width: 21%;
+    flex-shrink: 0;
+    margin-right: 1.8vw;
+}
+
+.gallery .swiper-slide img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 800 / 1040;
+    object-fit: cover;
+    filter: grayscale(0.7) sepia(0.1) hue-rotate(160deg) saturate(0.2) brightness(0.5) contrast(1.4);
+    transition: filter 0.3s ease;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.gallery .swiper-slide img:hover {
+    filter: grayscale(0) sepia(0) hue-rotate(0deg) saturate(1) brightness(1) contrast(1);
+}
+
+/* ================= GALLERY SCROLLBAR ================= */
+
+/* 스크롤바 전체 */
+.gallery.swiper .swiper-scrollbar {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 90%;
+    /* 전체 스크롤바 길이 */
+    height: 5px;
+    /* 스크롤바 두께 */
+
+    background: #222;
+    border-radius: 0;
+}
+
+/* 움직이는 노란색 바 */
+.gallery.swiper .swiper-scrollbar-drag {
+    background: var(--yellow);
+    border-radius: 0;
+    cursor: grab;
+}
+
+
+.gallery {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    overscroll-behavior-x: contain;
+}
+
+.gallery.dragging {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+}
+
+.gallery img {
+    -webkit-user-drag: none;
+    user-select: none;
+}
+
+
+
+/* ============================section5==================================== */
+.join {
+    display: grid;
+    grid-template-columns: 47.2% 1fr
+}
+
+.join-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+
+.join-content {
+    position: relative;
+    padding: 11vw 9% 5vw 21%
+}
+
+.join h2 {
+    font: 2vw Anton, Impact, sans-serif
+}
+
+.join form>p {
+    font-weight: 300;
+    font-size: 1.1vw;
+    margin: 1vw 0
+}
+
+.join input {
+    display: block;
+    width: 100%;
+    padding: 1.1vw 1.8vw;
+    background: transparent;
+    border: 1px solid #aaa;
+    color: white;
+    margin-bottom: 1.8vw;
+    border-radius: 0;
+    outline: none;
+}
+
+.join button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 0;
+    background: var(--yellow);
+    width: 100%;
+    height: 3vw;
+    font-size: .9vw
+}
+
+.join button:hover {
+    background-color: #0C0C0C;
+    border: 1px solid #fff;
+    color: #fff;
+    transition: all 0.3s;
+}
+
+.join button img {
+    height: 90%;
+    width: 3vw
+}
+
+.join .form-note {
+    font-size: 11px;
+    color: #929292;
+    line-height: 1.6
+}
+
+/* 원형 퀵 내비게이션: 푸터 등장, 순차 펼침 및 호버 이름 */
+
+
+.pulse-quick-nav {
+    --neon: #e9f500;
+    font: normal 16px/1.15 Arial, sans-serif;
+    position: fixed;
+    right: 7%;
+    bottom: min(732px, calc(100vh - 210px));
+    /* 낮은 창에서도 펼친 HOME 버튼을 누를 수 있도록 제한 */
+    width: 65px;
+    height: 65px;
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(0);
+    transition: opacity .35s ease, transform .35s, visibility .35s;
+}
+
+
+.pulse-quick-nav.visible {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+
+.pulse-quick-nav .center,
+.pulse-quick-nav .node {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    text-decoration: none;
+    background: var(--neon);
+    color: #0b0b0b;
+}
+
+
+.pulse-quick-nav .center {
+    width: 70px;
+    height: 70px;
+    z-index: 4;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 24px #e9f50055;
+    transition: box-shadow .25s, transform .25s;
+}
+
+
+.pulse-quick-nav .center:hover {
+    box-shadow: 0 0 30px #e9f500a0;
+    transform: translate(-50%, -50%) scale(1.05);
+}
+
+
+/* 중앙 버튼 네온 펄스 */
+.pulse-quick-nav .center {
+    overflow: visible;
+}
+
+.pulse-quick-nav .center::before,
+.pulse-quick-nav .center::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border: 2px solid #e9f500;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: neon-pulse 2.4s ease-out infinite;
+}
+
+.pulse-quick-nav .center::after {
+    animation-delay: 1.2s;
+}
+
+@keyframes neon-pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.85;
+        box-shadow: 0 0 12px #e9f50099;
+    }
+
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+        box-shadow: 0 0 30px #e9f50033;
+    }
+}
+
+/* 메뉴 펼침 시 네온 효과 숨김 */
+.pulse-quick-nav.open .center::before,
+.pulse-quick-nav.open .center::after {
+    animation: none;
+    opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pulse-quick-nav .center::before,
+    .pulse-quick-nav .center::after {
+        animation: none;
+        opacity: 0;
+    }
+}
+
+
+.pulse-quick-nav .center svg {
+    width: 36px;
+    height: 36px;
+}
+
+
+.pulse-quick-nav .node {
+    width: 50px;
+    height: 50px;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    transform: translate(-50%, -50%);
+    scale: .85;
+    transition:
+        transform .5s ease-out,
+        scale .25s ease-out,
+        opacity .25s,
+        box-shadow .25s,
+        background .25s,
+        visibility .5s;
+}
+
+
+.pulse-quick-nav .node svg {
+    width: 23px;
+    height: 23px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+
+.pulse-quick-nav.open .node {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)));
+    scale: 1;
+    transition-delay: 0s;
+
+}
+
+
+.pulse-quick-nav.open .node:hover,
+.pulse-quick-nav.open .node:focus-visible {
+    background: #f8ff7b;
+    box-shadow: 0 0 20px #e9f50099;
+    /* transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) scale(1.07); */
+    scale: 1;
+    transition-delay: 0s;
+}
+
+
+.pulse-quick-nav .tooltip {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-100% - 31px)) translateY(6px);
+    padding: 6px 9px;
+    background: #202509;
+    border: 1px solid var(--neon);
+    border-radius: 4px;
+    color: var(--neon);
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s, transform .18s;
+}
+
+
+.pulse-quick-nav .node:hover .tooltip,
+.pulse-quick-nav .node:focus-visible .tooltip {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 31px));
+}
+
+
+.pulse-quick-nav .center:focus-visible,
+.pulse-quick-nav .node:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 4px;
+}
+
+
+/* 원형 반경 110px: 주변 버튼 사이 간격 60px, 하단 잘림 방지 */
+.pulse-quick-nav .node:nth-of-type(1) {
+    --x: 0px;
+    --y: -110px;
+    --delay: .04s;
+}
+
+
+.pulse-quick-nav .node:nth-of-type(2) {
+    --x: 95.3px;
+    --y: -55px;
+    --delay: .08s;
+}
+
+
+.pulse-quick-nav .node:nth-of-type(3) {
+    --x: 95.3px;
+    --y: 55px;
+    --delay: .12s;
+}
+
+
+.pulse-quick-nav .node:nth-of-type(4) {
+    --x: 0px;
+    --y: 110px;
+    --delay: .16s;
+}
+
+
+.pulse-quick-nav .node:nth-of-type(5) {
+    --x: -95.3px;
+    --y: 55px;
+    --delay: .20s;
+}
+
+
+.pulse-quick-nav .node:nth-of-type(6) {
+    --x: -95.3px;
+    --y: -55px;
+    --delay: .24s;
+}
+
+
+@media (prefers-reduced-motion: reduce) {
+
+    .pulse-quick-nav,
+    .pulse-quick-nav * {
+        transition: none !important;
+    }
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0
+}
+
+footer {
+    background: var(--black);
+    padding: 3.5vw 4% 1vw;
+    font-family: 'A2z';
+
+
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1vw
+}
+
+.contact-card,
+.info-card {
+    border-radius: 13px;
+    padding: 1.3vw 2vw;
+    min-height: 17vw;
+    position: relative;
+    overflow: hidden
+}
+
+.contact-card {
+    background: var(--yellow);
+    color: black
+}
+
+.info-card {
+    background: #2c2c2c
+}
+
+.footer-grid h2 {
+    font-size: 1.6vw;
+    font-weight: 400
+}
+
+.contact-card>img {
+    position: absolute;
+    right: 5%;
+    bottom: 9%;
+    width: 52%;
+
+}
+
+.footer-grid p {
+    font-family: 'Pretendard';
+    font-weight: 400;
+    position: absolute;
+    bottom: 1.5vw;
+    font-size: 1.1vw;
+    line-height: 2;
+    z-index: 1
+}
+
+.contact-card a {
+    margin-left: 1vw;
+    font-family: 'Pretendard';
+    font-weight: 300;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-rows: 1fr 1.5fr;
+    gap: .5vw
+}
+
+.footer-links nav {
+    background: #2c2c2c;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 1vw 2vw;
+    gap: .5vw;
+    font-size: .9vw
+}
+
+
+
+.footer-links a:hover {
+    text-decoration: underline
+}
+
+.socials {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: .8vw;
+    transition: all 0.3s;
+}
+
+.socials span {
+    color: #d73434;
+    font-family: 'Pretendard';
+    border-radius: 10px;
+    background: #e82c30;
+    /* padding: 1vw; */
+    font-size: 1vw;
+    padding: 10px;
+
+    position: relative;
+    display: block;
+    overflow: hidden;
+
+}
+
+/* 이미지 기본 상태 */
+.socials span::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: all 0.5s;
+    pointer-events: none;
+}
+
+/* 호버하면 이미지 나타남 */
+.socials span:hover::before {
+    opacity: 1;
+
+}
+
+.socials span:hover h5 {
+    opacity: 70%;
+}
+
+/* Youtube */
+.socials .yt::before {
+    background: url(../images/main/footer_yt.png) 30% 10% no-repeat;
+}
+
+/* Facebook */
+.socials .fb::before {
+    background: url(../images/main/footer_fb.png) 10% 10% / cover no-repeat;
+}
+
+/* Instagram */
+.socials .ins::before {
+    background: url(../images/main/footer_ins.png) 50% 10% / auto no-repeat;
+}
+
+
+/* .socials .yt:hover{
+    background-image: url(../dist/images/main/footer_yt.png);
+    background-position: 30% 10%;
+    background-repeat: no-repeat;
+   
+}
+.socials .fb:hover{
+    background-image: url(../dist/images/main/footer_fb.png);
+    background-position:10% 10% ;
+    background-size: cover;
+    background-repeat: no-repeat;
+   
+}
+.socials .ins:hover{
+    background-image: url(../dist/images/main/footer_ins.png);
+    background-position: 50% 10%;
+    background-size: auto;
+    background-repeat: no-repeat;
+} */
+
+.socials h5 {
+    position: relative;
+    z-index: 1;
+
+    display: inline-block;
+    font-size: 18px;
+    font-weight: 400;
+
+    padding: 1px 6px 1px 9px;
+    font-family: 'Pretendard';
+    border-radius: 5px;
+    background-color: #D9D9D9;
+
+    transition: all 0.3s;
+}
+
+
+
+.socials span:nth-child(2) {
+    color: #0B0693;
+    background: #5550c8
+}
+
+.socials span:nth-child(3) {
+    color: #7754BE;
+    background: linear-gradient(#4768D7, #D12D8F, #F2583E, #FFDC83)
+}
+
+/* .footer-line {
+    height: 1px;
+    background: #afb000;
+    margin: 2vw -3% 3vw
+} */
+
+
+/* ================= FOOTER 심박 그래프 ================= */
+
+.footer-line {
+    height: 100px;
+    background: transparent;
+    margin: 2vw -3% 3vw;
+    overflow: hidden;
+}
+
+.footer-line svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.footer-line path {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+}
+
+/* 항상 보이는 기본 심박선 */
+.footer-line .heartbeat-base {
+    stroke: #E9F500;
+    stroke-width: 2;
+    opacity: 0.4;
+    filter: none;
+}
+
+/* 선을 따라 반복 이동하는 네온 빛 */
+.footer-line .heartbeat-light {
+    stroke: #F3FF58;
+    stroke-width: 3;
+    stroke-dasharray: 0.12 0.88;
+    stroke-dashoffset: 1;
+    filter: drop-shadow(0 0 7px #E9F500);
+    animation: heartbeat-move 5s linear infinite;
+}
+
+@keyframes heartbeat-move {
+    from {
+        stroke-dashoffset: 1;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.closing {
+    font-family: 'A2z';
+    font-size: 6.8vw;
+    font-weight: 800;
+    /* letter-spacing: -.055em; */
+    white-space: nowrap;
+    line-height: 1.1
+}
+
+@media(min-width:1920px) {
+    body {
+        max-width: 1920px;
+        margin: auto
+    }
+}
+
+@media(max-width:700px) {
+
+    .hero-header {
+        inset: 20px 6% auto;
+    }
+
+    .hero-header .logo {
+        width: 140px;
+    }
+
+    /* banner 모바일:중앙 문구 간격을 확보합니다. */
+    .about-copy {
+        width: 90%;
+    }
+
+    .about h2 {
+        font-size: 24px;
+        letter-spacing: .12em;
+        margin-bottom: 28px;
+    }
+
+    .about h3 {
+        font-size: 16px;
+        margin-bottom: 22px;
+    }
+
+    .about p {
+        font-size: 12px;
+        line-height: 2.1;
+    }
+
+    .about p+p {
+        margin-top: 26px;
+    }
+
+    /* 좌우 레일 없애기 */
+    .about .side {
+        display: none;
+    }
+
+    .banner-rail-track span {
+        font-size: 34px;
+        height: max(100svh, 560px);
+    }
+
+    .format {
+        padding: 65px 7%
+    }
+
+    .format>h2 {
+        font-size: 25px;
+        margin-bottom: 35px
+    }
+
+    .format-content {
+        padding-top: 180px
+    }
+
+    #format-image {
+        width: 160px;
+        right: calc(50% - 80px);
+        top: 0
+    }
+
+    .format-row {
+        min-height: 76px;
+        gap: 18px;
+        padding: 15px 0
+    }
+
+    .format-row b {
+        font-size: 15px;
+        width: 104px
+    }
+
+    .format-row span {
+        font-size: 12px;
+        line-height: 1.8;
+        max-width: none;
+        flex: 1
+    }
+
+    .manifesto .photo h2 {
+        font-size: 12vw
+    }
+
+    .manifesto .photo:nth-child(2) h2 {
+        left: 7%;
+        top: 18%
+    }
+
+
+    .kit {
+        padding: 55px 6%
+    }
+
+    .kit h2 {
+        font-size: 25px;
+        margin-bottom: 30px
+    }
+
+    .kit-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px
+    }
+
+    .kit figure:last-child {
+        grid-column: 1/-1;
+        width: calc(50% - 8px);
+        justify-self: center
+    }
+
+    .kit figcaption {
+        font-size: 16px;
+        padding: 14px 2px
+    }
+
+    .energy {
+        padding: 45px 0 60px
+    }
+
+    .energy h2 {
+        font-size: 22px;
+        max-width: 220px
+    }
+
+    .gallery-controls button {
+        width: 32px;
+        height: 32px
+    }
+
+    .energy-copy {
+        margin: 35px 7%
+    }
+
+    .energy h3 {
+        font-size: 17px;
+        line-height: 1.7
+    }
+
+    .energy-copy p {
+        font-size: 12px;
+        line-height: 1.8;
+        margin-top: 12px
+    }
+
+    .gallery.swiper {
+        padding-left: 6%;
+    }
+
+    .gallery .swiper-slide {
+        width: 64%;
+        margin-right: 15px;
+    }
+
+    .join {
+        grid-template-columns: 1fr
+    }
+
+    .join-photo {
+        height: 380px
+    }
+
+    .join-content {
+        padding: 55px 8% 90px
+    }
+
+    .join h2 {
+        font-size: 26px
+    }
+
+    .join form>p {
+        font-size: 13px;
+        margin: 12px 0 20px
+    }
+
+    .join input {
+        padding: 15px;
+        margin-bottom: 16px
+    }
+
+    .join button {
+        height: 44px;
+        font-size: 12px
+    }
+
+    .join button img {
+        width: 30px
+    }
+
+    /* 모바일: 56/40px 버튼을 유지하며 오른쪽 호버 이름 폭까지 확보합니다. */
+    .pulse-quick-nav {
+        width: 56px;
+        height: 56px;
+        bottom: 115px;
+        right: max(calc(8% + 15px), 100px);
+    }
+
+    .pulse-quick-nav .center {
+        width: 56px;
+        height: 56px;
+    }
+
+    .pulse-quick-nav .center svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .pulse-quick-nav .node {
+        width: 40px;
+        height: 40px;
+    }
+
+    .pulse-quick-nav .node svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .pulse-quick-nav .tooltip {
+        font-size: 10px;
+        padding: 4px 6px;
+    }
+
+    .pulse-quick-nav .node:nth-of-type(1) {
+        --y: -86px;
+    }
+
+    .pulse-quick-nav .node:nth-of-type(2) {
+        --x: 74.5px;
+        --y: -43px;
+    }
+
+    .pulse-quick-nav .node:nth-of-type(3) {
+        --x: 74.5px;
+        --y: 43px;
+    }
+
+    .pulse-quick-nav .node:nth-of-type(4) {
+        --y: 86px;
+    }
+
+    .pulse-quick-nav .node:nth-of-type(5) {
+        --x: -74.5px;
+        --y: 43px;
+    }
+
+    .pulse-quick-nav .node:nth-of-type(6) {
+        --x: -74.5px;
+        --y: -43px;
+    }
+
+    footer {
+        padding: 25px 6%
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 12px
+    }
+
+    .contact-card,
+    .info-card {
+        min-height: 180px;
+        padding: 20px
+    }
+
+    .footer-grid h2 {
+        font-size: 19px
+    }
+
+    .footer-grid p {
+        font-size: 14px;
+        bottom: 20px
+    }
+
+    .contact-card>img {
+        width: 45%
+    }
+
+    .footer-links {
+        min-height: 180px;
+        gap: 8px
+    }
+
+    .footer-links nav {
+        font-size: 11px;
+        padding: 16px;
+        gap: 12px
+    }
+
+    .socials {
+        gap: 6px;
+    }
+
+    .socials span {
+        padding: 7px;
+    }
+
+    .socials h5 {
+        font-size: 11px;
+        padding: 2px 4px;
+    }
+
+    .footer-line {
+        margin: 30px 0
+    }
+
+    /* 모바일 심박그래프 위치 변경 */
+    .footer-line .heartbeat-base,
+    .footer-line .heartbeat-light {
+        d: path("M0 65 H180 L210 49 L240 83 L270 12 L310 118 L340 45 L370 65 H1920");
+    }
+
+    .footer-line .heartbeat-light {
+    animation-duration: 3.5s;}
+
+    .closing {
+        font-size: clamp(20px, 7.2vw, 36px);
+        white-space: nowrap;
+        width: 100%;
+        text-align: center;
+        letter-spacing: -0.06em;
+    }
+}
+
+@media(max-width:350px)    {
+.pulse-quick-nav {
+        width: 56px;
+        height: 40px;
+        bottom: 115px;
+        right: max(calc(8% + 15px), 130px);
+    }
+}
+
+
+@media(prefers-reduced-motion:reduce) {
+    html {
+        scroll-behavior: auto
+    }
+
+    *,
+    *:before,
+    *:after {
+        transition: none !important
+    }
+
+}
+
+/* banner 접근성: 모션 감소 설정에서는 확대/반복/등장 없이 완성 화면을 표시합니다. */
+@media (prefers-reduced-motion: reduce) {
+
+    .about,
+    .about.is-banner-ready {
+        height: auto;
+        min-height: 100svh;
+    }
+
+    .banner-stage {
+        position: relative;
+        height: auto;
+        min-height: 100svh;
+        padding: 60px 0;
+    }
+
+    .banner-visual {
+        transform: none;
+    }
+
+    .about .side {
+        opacity: .77;
+    }
+
+    .banner-rail-track {
+        animation: none !important;
+        will-change: auto;
+    }
+
+    .about .about-copy>* {
+        opacity: 1 !important;
+        transform: none !important;
+        will-change: auto;
+    }
+}
+
+@media (max-height: 540px) and (orientation: landscape) {
+
+    /* 낮은 가로 화면에서도 본문이 잘리지 않게 간격을 압축합니다. */
+    .about h2 {
+        margin-bottom: 16px;
+        font-size: 24px;
+    }
+
+    .about h3 {
+        margin-bottom: 12px;
+        font-size: 16px;
+    }
+
+    .about p {
+        font-size: 12px;
+        line-height: 1.8;
+    }
+
+    .about p+p {
+        margin-top: 18px;
+    }
+}
+
+/* MANIFESTO sticky 위치 안정화 */
+.manifesto.manifesto-running .manifesto-stage {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+
+    transform: none;
+    will-change: clip-path;
+}
+
+/* SECTION3 — PRIZE MONEY: 1920px 시안의 여백과 글자 크기를 섹션 폭에 맞춥니다. */
+#section3 {
+    container-type: inline-size;
+    background: #000 url(../images/main/section3_bg.png) center / cover no-repeat;
+    color: #fff;
+    text-align: center;
+    font-family: 'A2z', Arial, sans-serif;
+}
+
+#section3 .prize-title {
+    padding-top: 4.4cqw;
+    color: #383838;
+    font: 900 8.4cqw/1 'Gunhamimalmunteuyeot';
+    letter-spacing: 0.10em;
+}
+
+/* PRIZE MONEY 타이틀 칼날 빛 효과 */
+#section3 .prize-title {
+    position: relative;
+    isolation: isolate;
+}
+
+#section3 .prize-title::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 4.4cqw;
+    left: 0;
+    width: 100%;
+
+    font: inherit;
+    letter-spacing: inherit;
+    line-height: inherit;
+    text-align: center;
+    white-space: nowrap;
+
+    color: transparent;
+    background: linear-gradient(105deg,
+            transparent 35%,
+            rgba(255, 255, 255, 0.15) 44%,
+            #ffffff 50%,
+            rgba(255, 255, 255, 0.35) 54%,
+            transparent 63%);
+
+    background-size: 300% 100%;
+    background-position: 100% 0;
+    background-clip: text;
+    -webkit-background-clip: text;
+    pointer-events: none;
+}
+
+#section3 .prize-title.shine::after {
+    animation: prize-blade-shine 1.5s ease-out 0.5s forwards;
+}
+
+@keyframes prize-blade-shine {
+    from {
+        background-position: 100% 0;
+    }
+
+    to {
+        background-position: 0% 0;
+    }
+}
+
+@media (max-width: 700px) {
+    #section3 .prize-title::after {
+        top: 12cqw;
+    }
+}
+
+#section3 .prize-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.6cqw;
+    margin-top: 2.8cqw;
+    color: var(--pink);
+    font-size: 3.25cqw;
+    font-weight: 500;
+    font-family: 'Escoredream';
+}
+
+#section3 .prize-trophy {
+    width: 7.3cqw;
+    height: auto;
+}
+
+#section3 .prize-total {
+    margin-top: 1cqw;
+    color: var(--pink);
+    font: 400 5.5cqw/1.1 'Atomic Age', 'Arial Black', sans-serif;
+    letter-spacing: .055em;
+}
+
+#section3 .prize-pulse {
+    display: block;
+    width: 42%;
+    height: auto;
+    margin: .45cqw auto 0;
+    overflow: visible;
+}
+
+#section3 .prize-pulse path {
+    fill: none;
+    stroke: var(--pink);
+    stroke-width: 1.5;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+}
+
+#section3 .prize-slogan {
+    display: flex;
+    justify-content: center;
+    gap: 2.8cqw;
+    margin: .9cqw 0 0;
+    color: #ccc;
+    font-size: 1.25cqw;
+    font-weight: 300;
+    letter-spacing: .15em;
+    font-family: 'Escoredream';
+}
+
+#section3 .prize-cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    width: 77%;
+    margin: 4.2cqw auto 0;
+    padding-bottom: 5.5cqw;
+    list-style: none;
+    font-family: 'Escoredream';
+    font-weight: 300;
+}
+
+#section3 .prize-card {
+    position: relative;
+    isolation: isolate;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2cqw;
+    aspect-ratio: 490 / 156;
+    text-align: left;
+    transition: transform .35s ease;
+}
+
+/* 텍스트와 분리한 외곽선만 핑크색으로 발광합니다. */
+#section3 .prize-outline {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    fill: var(--black);
+    stroke: white;
+    stroke-width: 2;
+    transition: fill .35s ease, stroke .35s ease, filter .35s ease;
+}
+
+#section3 .prize-number {
+    color: var(--pink);
+    font: italic 400 4.15cqw/1 'Anton', 'Arial Black', sans-serif;
+}
+
+#section3 .prize-place {
+    font-size: 1.35cqw;
+    font-weight: 400;
+}
+
+#section3 .prize-payout {
+    margin-top: .65cqw;
+    font: 400 1.65cqw/1.2 'Atomic Age', 'Arial Black', sans-serif;
+    letter-spacing: .045em;
+    white-space: nowrap;
+}
+
+@media (hover: hover) {
+    #section3 .prize-card:hover {
+        transform: translateY(-8px);
+    }
+
+    #section3 .prize-card:hover .prize-outline {
+        fill: rgba(237, 0, 138, 0.25);
+        stroke: var(--pink);
+        filter: drop-shadow(0 0 10px rgba(237, 0, 138, 0.6));
+    }
+}
+
+@media (max-width: 900px) {
+    #section3 .prize-cards {
+        width: 93%;
+    }
+
+    #section3 .prize-place {
+        font-size: 1.7cqw;
+    }
+
+    #section3 .prize-payout {
+        font-size: 2.1cqw;
+    }
+}
+
+@media (max-width: 700px) {
+    #section3 .prize-title {
+        padding-top: 12cqw;
+        font-size: 11.5cqw;
+    }
+
+    #section3 .prize-label {
+        margin-top: 7cqw;
+        font-size: 5cqw;
+    }
+
+    #section3 .prize-trophy {
+        width: 13cqw;
+    }
+
+    #section3 .prize-total {
+        margin-top: 2cqw;
+        font-size: 9.5cqw;
+    }
+
+    #section3 .prize-pulse {
+        width: 76%;
+        margin-top: 2cqw;
+    }
+
+    #section3 .prize-slogan {
+        flex-wrap: wrap;
+        gap: .3em 1.4em;
+        font-size: 2.15cqw;
+    }
+
+    #section3 .prize-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        width: min(85%, 420px);
+        margin-top: 7cqw;
+        padding-bottom: 12cqw;
+    }
+
+    #section3 .prize-card {
+        gap: min(6cqw, 32px);
+    }
+
+    #section3 .prize-number {
+        font-size: min(12cqw, 58px);
+    }
+
+    #section3 .prize-place {
+        font-size: min(3.6cqw, 21px);
+    }
+
+    #section3 .prize-payout {
+        font-size: min(5.2cqw, 29px);
+    }
+}
+
+/* ========== OFFICIAL KIT 모바일 가로 스크롤 ========== */
+@media (max-width: 700px) {
+
+    #kit.kit {
+        height: 350svh;
+        padding: 0;
+        overflow: visible;
+    }
+
+    #kit .kit-stage {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        overflow: hidden;
+    }
+
+    #kit .kit-grid {
+        position: absolute;
+        display: flex;
+        flex-wrap: nowrap;
+        grid-template-columns: none;
+
+        left: 6%;
+        right: auto;
+        top: 28%;
+
+        width: max-content;
+        gap: 12px;
+
+        transform-origin: left center;
+    }
+
+    #kit .kit-grid figure,
+    #kit .kit-grid figure:last-child {
+        flex: 0 0 calc((88vw - 12px) / 2);
+        width: calc((88vw - 12px) / 2);
+        min-width: 0;
+        grid-column: auto;
+        justify-self: auto;
+    }
+
+    #kit .kit-grid figure img {
+        width: 100%;
+        height: min(48svh, 440px);
+        object-fit: cover;
+        object-position: top;
+    }
+
+    #kit .kit-grid figcaption {
+        font-size: 12px;
+        padding: 12px 4px;
+    }
+
+    #kit .kit-stage h2 {
+        font-size: 30px;
+        white-space: nowrap;
+    }
+}
