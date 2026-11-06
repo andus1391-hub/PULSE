@@ -117,6 +117,14 @@
     section.classList.add('is-home', 'has-brand');
     history.replaceState(history.state, '', link.hash);
     window.scrollTo({ top: 0, behavior: 'instant' });
+
+    // HOME 이동 후 AOS 위치 다시 계산
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        AOS.refreshHard();
+      });
+    });
+
     header.querySelector('a').focus({ preventScroll: true });
   });
   startOpening();
