@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="한계를 넘어, 자신의 가능성을 증명하라. PULSE 실내 스포츠 컴피티션.">
+    <!-- 첫 페인트 전: 저장된 스크롤과 주소의 섹션 앵커를 초기화합니다. -->
+    <style>
+        html.main-loading {
+            background: #080808;
+        }
+
+        html.main-loading body {
+            visibility: hidden;
+        }
+    </style>
+    <script>
+        (() => {
+            function prepareMain() {
+                document.documentElement.classList.add('main-loading');
+                history.scrollRestoration = 'manual';
+                if (location.hash) history.replaceState(history.state, '', location.pathname + location.search);
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }
+            prepareMain();
+            window.addEventListener('pagehide', event => {
+                if (event.persisted) document.documentElement.classList.add('main-loading');
+            });
+            window.addEventListener('pageshow', event => {
+                if (event.persisted) prepareMain();
+            });
+        })();
+    </script>
+    <title>PULSE — PUSH HARDER</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.css">
+
+    <link rel="icon" href="favicon.png">
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- font -->
+    <link rel="stylesheet" href="css/font.css">
+
+</head>
+
+<body id="top">
+    <main>
+
+        <!-- MAIN 시작 -->
+        <section class="main" id="main" aria-label="PULSE 터널">
+            <div class="tunnel-stage">
+                <div class="tunnel-world">
+                    <div class="tunnel-space"></div>
+                </div>
+                <!-- 자동 오프닝 전용 레이어: 아래의 실제 게이트와 겹쳐지며 사라집니다. -->
+                <div class="tunnel-intro" aria-hidden="true">
+                    <div class="tunnel-side tunnel-opening-left"></div>
+                    <div class="tunnel-side tunnel-opening-right"></div>
+                    <div class="tunnel-word">LIMIT</div>
+                </div>
+                <!-- PULSE는 게이트에 넣지 않고 FEEL 통과 후 별도 레이어로 등장합니다. -->
+                <div class="tunnel-finish">
+                    <div class="main-bg" aria-hidden="true">
+                        <img src="./images/main/main_bg.png" alt="">
+                        <!-- 추후 배경이미지 추가 예정 -->
+                    </div>
+                    <div class="finish-brand">
+                        <img class="finish-logo" src="images/main/main_logo.svg" alt="PULSE">
+                        <small>FEEL THE PULSE</small>
+                    </div>
+                </div>
+                <header class="hero-header" inert>
+                    <a href="#top" aria-label="PULSE 홈"><img class="logo" src="images/main/main_logo.svg"
+                            alt="PULSE"></a>
+                    <a class="about-link" href="about.html">ABOUT</a>
+                </header>
+                <div class="tunnel-hint">SCROLL ↓ TO RUN FORWARD<br><span>SCROLL UP TO REVERSE</span></div>
+            </div>
+        </section>
+        <!-- MAIN 끝 -->
+
+
+
+        <!-- banner 시작: 작은 이미지 확대 → 제목/본문 합류 → 완성 화면 유지 -->
+        <section class="about" id="about" aria-labelledby="about-title">
+            <!-- sticky 화면을 감싸는 about의 높이가 전체 스크롤 모션 길이입니다. -->
+            <div class="banner-stage">
+                <!-- 원본 이미지를 왼쪽 위 기준으로 확대합니다. 글은 이미지와 별도 레이어입니다. -->
+                <div class="banner-visual" aria-hidden="true"></div>
+                <!-- 두 문구를 반복해 이음새 없이 흐르게 합니다. 왼쪽은 위로, 오른쪽은 아래로. -->
+                <div class="side left" aria-hidden="true">
+                    <div class="banner-rail-track"><span>BREAK YOUR LIMITS</span><span>BREAK YOUR LIMITS</span></div>
+                </div>
+                <div class="side right" aria-hidden="true">
+                    <div class="banner-rail-track"><span>BREAK YOUR LIMITS</span><span>BREAK YOUR LIMITS</span></div>
+                </div>
+                <div class="about-copy">
+                    <!-- 이미지 확대 완료 시 h2/h3가 함께 900ms 동안 내려옵니다. 스크롤을 멈춰도 완료됩니다. -->
+                    <h2 id="about-title">PROVE YOURSELF</h2>
+                    <h3>한계를 넘어, 자신의 가능성을 증명하라<p><span><br>PULSE는 속도, 근력, 지구력 등 다양한 신체 능력을 시험하고,<br>자신의 한계에 도전하는 실내 스포츠
+                                컴피티션입니다. <br><br>참가자 모두가 자신의 가능성을 증명하고 새로운 성취를 경험할 수 있는 스포츠 대회입니다.</span></p>
+                    </h3>
+                    <!-- 제목 등장 완료 후 다시 아래로 스크롤하면 p 두 개가 함께 900ms 동안 올라옵니다. -->
+
+                    <!-- <p>참가자 모두가 자신의 가능성을 증명하고 새로운 성취를 경험할 수 있는 스포츠 대회입니다</p> -->
+                </div>
+            </div>
+        </section>
+        <!-- banner 끝 -->
+
+        <!-- section1 -->
+        <section class="format" id="format">
+            <h2>FORMAT</h2>
+            <div class="format-content">
+                <div class="format-list">
+                    <button class="format-row" data-image="1" aria-pressed="true">
+                        <p class="number">01&nbsp; SPRINT</p><span>단거리
+                            스피드 레이스</span>
+                    </button>
+                    <button class="format-row" data-image="2" aria-pressed="false">
+                        <p class="number">02&nbsp; POWER</p><span>정해진 무게의 운동
+                            기구를 활용한 근력 경기</span>
+                    </button>
+                    <button class="format-row" data-image="3" aria-pressed="false">
+                        <p class="number">03&nbsp; AGILITY</p><span>장애물 코스를
+                            통과하는 민첩성 경기</span>
+                    </button>
+                    <button class="format-row" data-image="4" aria-pressed="false">
+                        <p class="number">04&nbsp; ENDURANCE</p><span>머신을
+                            활용한 지구력 경기</span>
+                    </button>
+                    <button class="format-row" data-image="5" aria-pressed="false">
+                        <p class="number">05&nbsp; FINAL RUSH</p><span>복합
+                            동작으로 구성된 최종 기록 경기</span>
+                    </button>
+                </div><img id="format-image" src="images/main/section1_img1.png" alt="SPRINT 경기" loading="lazy">
+            </div>
+        </section>
+        <!-- section1 -->
+
+
+        <!-- section2 -->
+        <section class="manifesto" id="manifesto" aria-label="PULSE 정신">
+            <!-- SECTION2: 기존 사진과 제목을 이 화면 안에서 순서대로 겹쳐 보여줍니다. -->
+            <div class="manifesto-stage">
+                <div class="photo"><img src="images/main/section2_img1.png" alt="덤벨을 들고 경기에 집중하는 선수들" loading="lazy">
+                    <h2>GO BEYOND</h2>
+                </div>
+                <div class="photo"><img src="images/main/section2_img2.png" alt="경기장에서 환호하는 선수" loading="lazy">
+                    <h2>ALL OUT</h2>
+                </div>
+                <div class="photo"><img src="images/main/section2_img3.png" alt="물구나무 훈련에 도전하는 선수" loading="lazy">
+                    <h2>PROVE IT</h2>
+                </div>
+            </div>
+        </section>
+        <!-- section2 -->
+
+
+        <!-- SECTION3 시작 -->
+        <section class="section3" id="section3">
+            <h2 class="prize-title" data-text="PRIZE MONEY">PRIZE MONEY</h2>
+            <p class="prize-label">
+                <img class="prize-trophy" src="images/main/section3_icon.svg" alt="">
+                TOTAL PRIZE
+            </p>
+            <p class="prize-total">₩100,000,000</p>
+
+            <!-- 심박그래프 구현 -->
+            <svg class="prize-pulse" viewBox="0 0 800 90" preserveAspectRatio="none" aria-hidden="true">
+                <path d="M0 50 H393 L415 2 L425 78 L441 19 L449 61 L458 41 H800" />
+            </svg>
+
+            <p class="prize-slogan"><span>PUSH YOUR LIMITS.</span> <span>CLAIM YOUR REWARDS.</span></p>
+            <!-- 평행사변형은 SVG로 그리고 순위와 상금은 수평 텍스트로 표시합니다. -->
+            <ol class="prize-cards">
+                <li class="prize-card">
+                    <svg class="prize-outline" viewBox="0 0 490 156" preserveAspectRatio="none" aria-hidden="true">
+                        <polygon points="71,1 489,1 419,155 1,155" />
+                    </svg>
+                    <span class="prize-number" aria-hidden="true">01</span>
+                    <div class="prize-details">
+                        <p class="prize-place">1ST PLACE</p>
+                        <p class="prize-payout">₩50,000,000</p>
+                    </div>
+                </li>
+                <li class="prize-card">
+                    <svg class="prize-outline" viewBox="0 0 490 156" preserveAspectRatio="none" aria-hidden="true">
+                        <polygon points="71,1 489,1 419,155 1,155" />
+                    </svg>
+                    <span class="prize-number" aria-hidden="true">02</span>
+                    <div class="prize-details">
+                        <p class="prize-place">2ND PLACE</p>
+                        <p class="prize-payout">₩30,000,000</p>
+                    </div>
+                </li>
+                <li class="prize-card">
+                    <svg class="prize-outline" viewBox="0 0 490 156" preserveAspectRatio="none" aria-hidden="true">
+                        <polygon points="71,1 489,1 419,155 1,155" />
+                    </svg>
+                    <span class="prize-number" aria-hidden="true">03</span>
+                    <div class="prize-details">
+                        <p class="prize-place">3RD PLACE</p>
+                        <p class="prize-payout">₩20,000,000</p>
+                    </div>
+                </li>
+            </ol>
+        </section>
+        <!-- SECTION3 끝 -->
+
+        <!-- section4 -->
+        <section class="kit" id="kit">
+            <div class="kit-stage">
+                <h2>OFFICIAL KIT</h2>
+                <div class="kit-grid">
+                    <figure><img src="images/main/section4_img1.png" alt="PULSE 에너지 드링크 패키지" loading="lazy">
+                        <figcaption>에너지 드링크</figcaption>
+                    </figure>
+                    <figure><img src="images/main/section4_img2.png" alt="PULSE 손목보호대" loading="lazy">
+                        <figcaption>손목보호대</figcaption>
+                    </figure>
+                    <figure><img src="images/main/section4_img3.png" alt="PULSE 스포츠 양말" loading="lazy">
+                        <figcaption>스포츠 양말</figcaption>
+                    </figure>
+                    <figure><img src="images/main/section4_img4.png" alt="PULSE 워터보틀" loading="lazy">
+                        <figcaption>워터보틀</figcaption>
+                    </figure>
+                    <figure><img src="images/main/section4_img5.png" alt="PULSE 패치" loading="lazy">
+                        <figcaption>패치</figcaption>
+                    </figure>
+                </div>
+            </div>
+        </section>
+        <!-- section4 -->
+
+        <!-- section5 -->
+        <section class="energy" id="gallery">
+            <div class="energy-heading">
+                <h2>CAPTURE THE ENERGY</h2>
+                <div class="gallery-controls"><button id="prev" aria-label="이전 사진">←</button><button id="next"
+                        aria-label="다음 사진">→</button></div>
+            </div>
+            <div class="energy-copy">
+                <h3>한계를 넘어선 순간, 그 뜨거운 에너지를 담다</h3>
+                <p>치열한 경쟁과 끝없는 도전이 만들어낸 PULSE의 순간들을 만나보세요</p>
+            </div>
+            <div class="gallery swiper" aria-label="대회 사진 갤러리">
+                <div class="swiper-wrapper"></div>
+                <div class="swiper-scrollbar"></div>
+            </div>
+        </section>
+
+        <!-- section5 -->
+
+        <!-- section6 -->
+        <section class="join" id="join"><img class="join-photo" data-aos="fade-right" data-aos-duration="1200"
+                src="images/main/section6_img.png" alt="속도감 있게 달리는 러너" loading="lazy">
+            <div data-aos="fade-left" data-aos-duration="1200" class="join-content">
+                <form>
+                    <h2>ARE YOU READY TO COMPETE?</h2>
+                    <p>당신의 한계를 증명할 시간</p><label class="sr-only" for="name">이름</label><input id="name" name="name"
+                        placeholder="NAME" autocomplete="name" required maxlength="80"><label class="sr-only"
+                        for="email">이메일</label><input id="email" name="email" type="email" placeholder="EMAIL"
+                        autocomplete="email" required><button type="submit">JOIN PULSE <img
+                            src="images/main/section6_icon.svg" alt=""></button>
+                    <!-- <p class="form-note" id="form-status" role="status">시안 미리보기 폼입니다. 입력 정보는 전송되지 않습니다.</p> -->
+                </form>
+            </div>
+        </section>
+
+        <!-- section6 -->
+    </main>
+
+
+    <footer>
+        <div class="footer-grid">
+            <div class="contact-card">
+                <h2>CONTACT</h2><img src="images/main/footer_card_logo.svg" alt="">
+                <p>EMAIL <a href="mailto:cmy1391@gmail.com">cmy1391@gmail.com</a></p>
+            </div>
+            <div class="info-card">
+                <h2>INFO</h2>
+                <p>ADDRESS &nbsp; &nbsp;부산광역시<br>TEL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;(051)</p>
+            </div>
+            <div class="footer-links">
+                <nav aria-label="하단 메뉴"><a href="#about">ABOUT</a><a href="#format">FORMAT</a><a href="#kit">OFFICIAL
+                        KIT</a><a href="#gallery">GALLERY</a><a href="#join">JOIN PULSE</a>
+                    <a href="mailto:cmy1391@gmail.com">CONTACT</a>
+                </nav>
+                <div class="socials"><span class="yt">
+                        <h5>Youtube</h5>
+                    </span><span class="fb">
+                        <h5>Facebook</h5>
+                    </span><span class="ins">
+                        <h5>Instagram</h5>
+                    </span></div>
+            </div>
+        </div>
+        <!-- <div class="footer-line"></div> -->
+        <!-- 심박그래프 -->
+        <div class="footer-line">
+            <svg viewBox="0 0 1920 130" preserveAspectRatio="none" aria-hidden="true">
+                <!-- 기본 심박선 -->
+                <path class="heartbeat-base"
+                    d="M0 65 H1390 L1440 65 L1470 49 L1500 83 L1530 12 L1570 118 L1600 45 L1630 65 H1920"
+                    pathLength="1" />
+
+                <!-- 움직이는 네온 빛 -->
+                <path class="heartbeat-light"
+                    d="M0 65 H1390 L1440 65 L1470 49 L1500 83 L1530 12 L1570 118 L1600 45 L1630 65 H1920"
+                    pathLength="1" />
+            </svg>
+        </div>
+
+
+
+
+        <p class="closing">LET’S MAKE IT HAPPEN</p>
+    </footer>
+    <!-- 원형 퀵 내비게이션: 각 목적지는 링크의 href에서 변경합니다. -->
+    <nav class="pulse-quick-nav" inert aria-label="빠른 섹션 이동"><button class="center" type="button" aria-label="메뉴 열기"
+            aria-expanded="false"><svg viewBox="0 0 48 48" aria-hidden="true">
+                <g fill="currentColor">
+                    <rect x="4" y="19" width="4" height="10" rx="1" />
+                    <rect x="10" y="14" width="5" height="20" rx="1" />
+                    <rect x="17" y="22" width="14" height="4" />
+                    <rect x="33" y="14" width="5" height="20" rx="1" />
+                    <rect x="40" y="19" width="4" height="10" rx="1" />
+                </g>
+            </svg></button>
+        <a class="node" href="#top" aria-label="HOME" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m3 10 9-7 9 7v10H3zM9 20v-7h6v7" />
+            </svg><span class="tooltip">HOME</span></a>
+        <a class="node" href="#section3" aria-label="PRIZE" tabindex="-1">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M8 3h8v7a4 4 0 0 1-8 0V3Z" />
+                <path d="M8 5H5v3a4 4 0 0 0 4 4" />
+                <path d="M16 5h3v3a4 4 0 0 1-4 4" />
+                <path d="M12 14v4" />
+                <path d="M8 21h8" />
+                <path d="M9 18h6v3H9z" />
+            </svg>
+
+            <span class="tooltip">PRIZE</span></a>
+        <a class="node" href="#format" aria-label="FORMAT" tabindex="-1">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="3.8" r="2.2" />
+                <path d="M8.5 11V9.5a3.5 3.5 0 0 1 7 0V11H8.5Z" />
+                <path d="M12 11v2M5 13h14M5 13v2M19 13v2" />
+                <circle cx="5" cy="17" r="1.8" />
+                <circle cx="19" cy="17" r="1.8" />
+                <path d="M1.8 23v-1a3.2 3.2 0 0 1 6.4 0v1H1.8Z" />
+                <path d="M15.8 23v-1a3.2 3.2 0 0 1 6.4 0v1h-6.4Z" />
+            </svg>
+            <span class="tooltip">FORMAT</span></a>
+        <a class="node" href="#kit" aria-label="OFFICIAL KIT" tabindex="-1"><svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m3 7 9-4 9 4v10l-9 4-9-4zM3 7l9 4 9-4M12 11v10" />
+            </svg><span class="tooltip">OFFICIAL KIT</span></a>
+        <a class="node" href="#gallery" aria-label="GALLERY" tabindex="-1">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="9" width="18" height="12" rx="1" />
+                <path d="M2 6h20v4H2z" />
+                <path d="M12 6v15" />
+                <path d="M12 6C8 6 5 5 5 2.8 5 .8 8 .7 9.5 2.4L12 6Z" />
+                <path d="M12 6c4 0 7-1 7-3.2 0-2-3-2.1-4.5-.4L12 6Z" />
+            </svg>
+            <span class="tooltip">GALLERY</span></a>
+        <a class="node" href="about.html" aria-label="ABOUT" tabindex="-1">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M2 12 H6
+               L8.5 7
+               L11 17
+               L13.5 4
+               L16 20
+               L18.5 12
+               H22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+            <span class="tooltip">ABOUT</span></a>
+    </nav>
+
+    <!-- 마우스커서 이벤트 -->
+    <!-- PULSE CUSTOM CURSOR 시작 -->
+    <div class="pulse-cursor" aria-hidden="true">
+        <span class="cursor-arm top"></span>
+        <span class="cursor-arm bottom"></span>
+        <span class="cursor-arm left"></span>
+        <span class="cursor-arm right"></span>
+
+        <span class="cursor-corner tl"></span>
+        <span class="cursor-corner tr"></span>
+        <span class="cursor-corner bl"></span>
+        <span class="cursor-corner br"></span>
+    </div>
+    <!-- PULSE CUSTOM CURSOR 끝 -->
+    <!-- 마우스커서 이벤트 -->
+
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@12/swiper-bundle.min.js"></script>
+    <script src="js/script.js"></script>
+
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init();
+    </script>
+
+
+
+
+
+</body>
+
+</html>
