@@ -17,19 +17,24 @@ if (navEntry?.type === 'reload') {
     const menu = document.querySelector('.pulse-quick-nav');
     if (!menu) return;
 
+     // 초기 상태에서는 숨김
+    menu.classList.remove('visible');
+
     function checkBottom() {
-        const visible =
-            window.scrollY + window.innerHeight >=
-            document.documentElement.scrollHeight - 5;
+        const footer = document.querySelector('footer');
+        if (!footer) return;
+
+        const footerBottom = footer.getBoundingClientRect().bottom;
+
+       const visible = footerBottom <= window.innerHeight + 5;
 
         menu.classList.toggle('visible', visible);
     }
 
     window.addEventListener('scroll', checkBottom, { passive: true });
     window.addEventListener('resize', checkBottom);
-    window.addEventListener('pageshow', checkBottom);
 
-    checkBottom();
+    window.addEventListener('load', checkBottom);
 })();
 
 
@@ -509,6 +514,9 @@ if (enteringDown || enteringUp) {
         touchHandled = false;
     }, { passive: true });
 
+
+
+    
     // 이탈이 완료되면 다시 진입할 수 있도록 초기화
     window.addEventListener('scroll', () => {
         if (mode !== 'leaving') return;
