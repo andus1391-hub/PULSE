@@ -481,28 +481,99 @@ if (navEntry?.type === 'reload') {
         touchHandled = false;
     }, { passive: true });
 
-    window.addEventListener('touchmove', event => {
-        if (touchY === null || event.touches.length !== 1) return;
 
+
+    window.addEventListener('touchmove', event => {
+    if (touchY === null || event.touches.length !== 1) return;
+
+    const delta = touchY - event.touches[0].clientY;
+
+    // 태블릿: PC와 같은 카드 진행 로직 사용
+    if (isTablet()) {
         if (mode === 'entering' || busy) {
             consume(event);
             return;
         }
 
-        if (touchHandled && mode === 'pinned') {
-            consume(event);
+        if (mode === 'pinned') {
+            if (touchHandled) {
+                consume(event);
+                return;
+            }
+
+            if (Math.abs(delta) < 35) {
+                consume(event);
+                return;
+            }
+
+            touchHandled = true;
+            handle(Math.sign(delta), event, true);
             return;
         }
 
-        const delta = touchY - event.touches[0].clientY;
-        if (Math.abs(delta) < 35) return;
+        const rect = section.getBoundingClientRect();
+        const approaching =
+            ready() &&
+            ((delta > 0 && step < cards.length &&
+              rect.top <= window.innerHeight && rect.bottom > 0) ||
+             (delta < 0 && step > 0 &&
+              rect.top < window.innerHeight && rect.bottom > 0));
 
-        handle(Math.sign(delta), event, true);
+        if (approaching) {
+            consume(event);
 
-        if (event.defaultPrevented) {
-            touchHandled = true;
+            if (!touchHandled && Math.abs(delta) >= 35) {
+                touchHandled = true;
+                handle(Math.sign(delta), event, true);
+            }
+            return;
         }
-    }, { passive: false, capture: true });
+
+        return;
+    }
+
+    // PC·모바일 기존 처리
+    if (mode === 'entering' || busy) {
+        consume(event);
+        return;
+    }
+
+    if (touchHandled && mode === 'pinned') {
+        consume(event);
+        return;
+    }
+
+    if (Math.abs(delta) < 35) return;
+
+    handle(Math.sign(delta), event, true);
+
+    if (event.defaultPrevented) {
+        touchHandled = true;
+    }
+}, { passive: false, capture: true });
+
+    // window.addEventListener('touchmove', event => {
+    //     if (touchY === null || event.touches.length !== 1) return;
+
+    //     if (mode === 'entering' || busy) {
+    //         consume(event);
+    //         return;
+    //     }
+
+    //     if (touchHandled && mode === 'pinned') {
+    //         consume(event);
+    //         return;
+    //     }
+
+    //     const delta = touchY - event.touches[0].clientY;
+    //     if (Math.abs(delta) < 35) return;
+
+    //     handle(Math.sign(delta), event, true);
+
+    //     if (event.defaultPrevented) {
+    //         touchHandled = true;
+    //     }
+    // }, { passive: false, capture: true });
 
     window.addEventListener('touchend', () => {
         touchY = null;
@@ -516,23 +587,6 @@ if (navEntry?.type === 'reload') {
 
 
 
-    // // 태블릿 OUR VALUES 화면 위치 유지
-    // window.addEventListener('scroll', () => {
-    //     if (!isTablet() || mode !== 'pinned') return;
-
-    //     const target = sectionTop();
-
-    //     if (Math.abs(window.scrollY - target) > 2) {
-    //         window.scrollTo({
-    //             top: target,
-    //             behavior: 'instant'
-    //         });
-    //     }
-    // }, { passive: true });
-
-
-
-    
     // 이탈이 완료되면 다시 진입할 수 있도록 초기화
     window.addEventListener('scroll', () => {
         if (mode !== 'leaving') return;
