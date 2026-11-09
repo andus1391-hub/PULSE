@@ -86,6 +86,8 @@ if (navEntry?.type === 'reload') {
     if (!heading || cards.some(card => !card)) return;
 
     const isMobile = () => window.matchMedia('(max-width: 700px)').matches;
+    const isTabletOrMobile = () =>
+    window.matchMedia('(max-width: 1100px)').matches;
 
     const SLIDE = 1000;
     const COPY = 350;
@@ -211,117 +213,126 @@ if (navEntry?.type === 'reload') {
     //     }
     // }
     async function move(direction) {
-    if (busy || mode !== 'pinned') return;
+        if (busy || mode !== 'pinned') return;
 
-    const mobile = isMobile();
-    const index = direction > 0 ? step : step - 1;
+        const mobile = isMobile();
+        const index = direction > 0 ? step : step - 1;
 
-    if (!mobile && (index < 0 || index >= cards.length)) return;
+        if (!mobile && (index < 0 || index >= cards.length)) return;
 
-    busy = true;
-    update();
+        busy = true;
+        update();
 
-    const token = generation;
+        const token = generation;
 
-    try {
-        if (mobile) {
-            // 모바일: 3장 동시 등장
-            if (direction > 0) {
-                heading.classList.add('values-title-hidden');
-
-                cards.forEach(card => {
-                    card.classList.add('is-visible');
-                });
-
-                await wait(SLIDE);
-                if (token !== generation) return;
-
-                cards.forEach(card => {
-                    card.classList.add('text-visible');
-                });
-
-                await wait(COPY);
-                if (token !== generation) return;
-
-                step = cards.length;
-
-            } else {
-                // 모바일: 3장 동시 퇴장
-                cards.forEach(card => {
-                    card.classList.remove('text-visible');
-                });
-
-                await wait(COPY);
-                if (token !== generation) return;
-
-                cards.forEach(card => {
-                    card.classList.remove('is-visible');
-                });
-
-                heading.classList.remove('values-title-hidden');
-
-                await wait(SLIDE);
-                if (token !== generation) return;
-
-                step = 0;
-            }
-
-        } else {
-            // PC: 기존 순차 등장 및 퇴장
-            const card = cards[index];
-
-            if (direction > 0) {
-                if (index === 2) {
+        try {
+            if (mobile) {
+                // 모바일: 3장 동시 등장
+                if (direction > 0) {
                     heading.classList.add('values-title-hidden');
+
+                    cards.forEach(card => {
+                        card.classList.add('is-visible');
+                    });
+
+                    await wait(SLIDE);
+                    if (token !== generation) return;
+
+                    cards.forEach(card => {
+                        card.classList.add('text-visible');
+                    });
+
+                    await wait(COPY);
+                    if (token !== generation) return;
+
+                    step = cards.length;
+
+                } else {
+                    // 모바일: 3장 동시 퇴장
+                    cards.forEach(card => {
+                        card.classList.remove('text-visible');
+                    });
+
+                    await wait(COPY);
+                    if (token !== generation) return;
+
+                    cards.forEach(card => {
+                        card.classList.remove('is-visible');
+                    });
+
+                    heading.classList.remove('values-title-hidden');
+
+                    await wait(SLIDE);
+                    if (token !== generation) return;
+
+                    step = 0;
                 }
-
-                card.classList.add('is-visible');
-
-                await wait(SLIDE);
-                if (token !== generation) return;
-
-                card.classList.add('text-visible');
-
-                await wait(COPY);
-                if (token !== generation) return;
-
-                step++;
 
             } else {
-                card.classList.remove('text-visible');
+                // PC: 기존 순차 등장 및 퇴장
+                const card = cards[index];
 
-                await wait(COPY);
-                if (token !== generation) return;
+                if (direction > 0) {
+                    if (index === 2) {
+                        heading.classList.add('values-title-hidden');
+                    }
 
-                card.classList.remove('is-visible');
+                    card.classList.add('is-visible');
 
-                if (index === 2) {
-                    heading.classList.remove('values-title-hidden');
+                    await wait(SLIDE);
+                    if (token !== generation) return;
+
+                    card.classList.add('text-visible');
+
+                    await wait(COPY);
+                    if (token !== generation) return;
+
+                    step++;
+
+                } else {
+                    card.classList.remove('text-visible');
+
+                    await wait(COPY);
+                    if (token !== generation) return;
+
+                    card.classList.remove('is-visible');
+
+                    if (index === 2) {
+                        heading.classList.remove('values-title-hidden');
+                    }
+
+                    await wait(SLIDE);
+                    if (token !== generation) return;
+
+                    step--;
                 }
-
-                await wait(SLIDE);
-                if (token !== generation) return;
-
-                step--;
             }
-        }
-    } finally {
-        if (token === generation) {
-            busy = false;
-            nextAllowed = performance.now() + 300;
-            update();
+        } finally {
+            if (token === generation) {
+                busy = false;
+                nextAllowed = performance.now() + 300;
+                update();
+            }
         }
     }
-}
 
     function handle(direction, event, fresh = true) {
-        if (!direction || !ready()) return;
+    if (!direction) return;
 
-        // 진입 및 카드 애니메이션 도중 스크롤 차단
-        if (mode === 'entering' || busy) {
-            consume(event);
-            return;
-        }
+    // 태블릿·모바일에서 진입 및 애니메이션 중
+    // 스크롤 차단을 우선 처리
+    if (isTabletOrMobile() && (mode === 'entering' || busy)) {
+        consume(event);
+        return;
+    }
+
+    if (!ready()) return;
+
+    // PC 기존 동작 유지
+    if (mode === 'entering' || busy) {
+        consume(event);
+        return;
+    }
 
         if (mode === 'pinned') {
             const canMove = direction > 0
@@ -353,24 +364,68 @@ if (navEntry?.type === 'reload') {
 
         const rect = section.getBoundingClientRect();
 
-        // 위에서 내려오는 경우
-        const enteringDown =
-            direction > 0 &&
-            step < cards.length &&
-            rect.top >= -2 &&
-            rect.top <= window.innerHeight;
+        let enteringDown;
+let enteringUp;
 
-        // 푸터에서 올라오는 경우
-        const enteringUp =
-            direction < 0 &&
-            step > 0 &&
-            rect.bottom >= 0 &&
-            rect.bottom <= window.innerHeight + 2;
+if (isTabletOrMobile()) {
+    // 태블릿·모바일 전용
+    const vh = window.innerHeight;
 
-        if (enteringDown || enteringUp) {
-            consume(event);
-            enter();
-        }
+    const travel = event.type === 'wheel'
+        ? Math.abs(event.deltaY) *
+          (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? vh : 1)
+        : 0;
+
+    enteringDown =
+        direction > 0 &&
+        step < cards.length &&
+        rect.bottom > 0 &&
+        rect.top <= vh + travel;
+
+    enteringUp =
+        direction < 0 &&
+        step > 0 &&
+        rect.top < vh &&
+        rect.bottom >= -travel;
+
+} else {
+    // PC 기존 조건 그대로 유지
+    enteringDown =
+        direction > 0 &&
+        step < cards.length &&
+        rect.top >= -2 &&
+        rect.top <= window.innerHeight;
+
+    enteringUp =
+        direction < 0 &&
+        step > 0 &&
+        rect.bottom >= 0 &&
+        rect.bottom <= window.innerHeight + 2;
+}
+
+if (enteringDown || enteringUp) {
+    consume(event);
+    enter();
+}
+
+        // // 위에서 내려오는 경우
+        // const enteringDown =
+        //     direction > 0 &&
+        //     step < cards.length &&
+        //     rect.top >= -2 &&
+        //     rect.top <= window.innerHeight;
+
+        // // 푸터에서 올라오는 경우
+        // const enteringUp =
+        //     direction < 0 &&
+        //     step > 0 &&
+        //     rect.bottom >= 0 &&
+        //     rect.bottom <= window.innerHeight + 2;
+
+        // if (enteringDown || enteringUp) {
+        //     consume(event);
+        //     enter();
+        // }
     }
 
     window.addEventListener('wheel', event => {
@@ -405,9 +460,9 @@ if (navEntry?.type === 'reload') {
 
         const direction =
             ['ArrowDown', 'PageDown', 'End'].includes(event.key) ||
-            (event.key === ' ' && !event.shiftKey) ? 1 :
-            ['ArrowUp', 'PageUp', 'Home'].includes(event.key) ||
-            (event.key === ' ' && event.shiftKey) ? -1 : 0;
+                (event.key === ' ' && !event.shiftKey) ? 1 :
+                ['ArrowUp', 'PageUp', 'Home'].includes(event.key) ||
+                    (event.key === ' ' && event.shiftKey) ? -1 : 0;
 
         if (direction) {
             handle(direction, event, !event.repeat);

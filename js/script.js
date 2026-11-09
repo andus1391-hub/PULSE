@@ -440,11 +440,11 @@ rows.forEach(row => {
   function render() {
     queued = false; if (reduced.matches) return;
     const rect = section.getBoundingClientRect();
-    const distance = Math.max(1, section.offsetHeight - innerHeight);
+    const distance = Math.max(1, section.offsetHeight - stage.getBoundingClientRect().height);
     const p = clamp(-rect.top / distance);
 
     // 모바일 OFFICIAL KIT 가로 스크롤
-    if (window.innerWidth <= 700) {
+    if (window.innerWidth <= 600) {
 
       const intro = phase(p, .04, .20);
       const slide = phase(p, .22, .94);
@@ -459,11 +459,20 @@ rows.forEach(row => {
       title.style.color = intro > .5 ? '#080808' : '#fff';
 
       // 상품 가로 이동 거리 계산
-      const visibleWidth = stage.clientWidth * .88;
+
+      const leftOffset = stage.clientWidth * .06;
+      const rightOffset = stage.clientWidth * .06;
+
       const moveDistance = Math.max(
         0,
-        grid.scrollWidth - visibleWidth
+        grid.scrollWidth - (stage.clientWidth - leftOffset - rightOffset)
       );
+
+      // const visibleWidth = stage.clientWidth * .88;
+      // const moveDistance = Math.max(
+      //   0,
+      //   grid.scrollWidth - visibleWidth
+      // );
 
       // PC의 rotate, scale 제거
       grid.style.transform =
@@ -480,7 +489,7 @@ rows.forEach(row => {
 
     // 0~0.22: 검정 배경 중앙 제목 → 상단 제목 + 흰 배경
     const intro = phase(p, .06, .24);
-    const tilt = phase(p, .57, .77);
+    const tilt = phase(p, .57, .90);
     // const leave=phase(p,.78,1);
     stage.style.backgroundColor = `rgb(${Math.round(8 + 247 * intro)},${Math.round(8 + 247 * intro)},${Math.round(8 + 247 * intro)})`;
     title.style.top = `${50 - 42 * intro}%`;
