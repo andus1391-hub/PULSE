@@ -17,7 +17,7 @@ if (navEntry?.type === 'reload') {
     const menu = document.querySelector('.pulse-quick-nav');
     if (!menu) return;
 
-     // 초기 상태에서는 숨김
+    // 초기 상태에서는 숨김
     menu.classList.remove('visible');
 
     function checkBottom() {
@@ -26,7 +26,7 @@ if (navEntry?.type === 'reload') {
 
         const footerBottom = footer.getBoundingClientRect().bottom;
 
-       const visible = footerBottom <= window.innerHeight + 5;
+        const visible = footerBottom <= window.innerHeight + 5;
 
         menu.classList.toggle('visible', visible);
     }
@@ -90,9 +90,9 @@ if (navEntry?.type === 'reload') {
 
     if (!heading || cards.some(card => !card)) return;
 
-    const isMobile = () => window.matchMedia('(max-width: 700px)').matches;
+    const isMobile = () => window.matchMedia('(max-width: 700px) and (max-width: 1200px)').matches;
     const isTabletOrMobile = () =>
-    window.matchMedia('(max-width: 1100px)').matches;
+        window.matchMedia('(max-width: 1100px)').matches;
 
     const SLIDE = 1000;
     const COPY = 350;
@@ -139,7 +139,6 @@ if (navEntry?.type === 'reload') {
         exitDirection = 0;
         update();
 
-        // 진입 중에는 카드 실행 금지
         const target = sectionTop();
 
         window.scrollTo({
@@ -147,7 +146,6 @@ if (navEntry?.type === 'reload') {
             behavior: 'smooth'
         });
 
-        // 위치가 정렬된 후 고정 상태로 변경
         const check = () => {
             if (mode !== 'entering') return;
 
@@ -322,22 +320,22 @@ if (navEntry?.type === 'reload') {
     }
 
     function handle(direction, event, fresh = true) {
-    if (!direction) return;
+        if (!direction) return;
 
-    // 태블릿·모바일에서 진입 및 애니메이션 중
-    // 스크롤 차단을 우선 처리
-    if (isTabletOrMobile() && (mode === 'entering' || busy)) {
-        consume(event);
-        return;
-    }
+        // 태블릿·모바일에서 진입 및 애니메이션 중
+        // 스크롤 차단을 우선 처리
+        if (isTabletOrMobile() && (mode === 'entering' || busy)) {
+            consume(event);
+            return;
+        }
 
-    if (!ready()) return;
+        if (!ready()) return;
 
-    // PC 기존 동작 유지
-    if (mode === 'entering' || busy) {
-        consume(event);
-        return;
-    }
+        // PC 기존 동작 유지
+        if (mode === 'entering' || busy) {
+            consume(event);
+            return;
+        }
 
         if (mode === 'pinned') {
             const canMove = direction > 0
@@ -370,48 +368,48 @@ if (navEntry?.type === 'reload') {
         const rect = section.getBoundingClientRect();
 
         let enteringDown;
-let enteringUp;
+        let enteringUp;
 
-if (isTabletOrMobile()) {
-    // 태블릿·모바일 전용
-    const vh = window.innerHeight;
+        if (isTabletOrMobile()) {
+            // 태블릿·모바일 전용
+            const vh = window.innerHeight;
 
-    const travel = event.type === 'wheel'
-        ? Math.abs(event.deltaY) *
-          (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? vh : 1)
-        : 0;
+            const travel = event.type === 'wheel'
+                ? Math.abs(event.deltaY) *
+                (event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? vh : 1)
+                : 0;
 
-    enteringDown =
-        direction > 0 &&
-        step < cards.length &&
-        rect.bottom > 0 &&
-        rect.top <= vh + travel;
+            enteringDown =
+                direction > 0 &&
+                step < cards.length &&
+                rect.bottom > 0 &&
+                rect.top <= vh + travel;
 
-    enteringUp =
-        direction < 0 &&
-        step > 0 &&
-        rect.top < vh &&
-        rect.bottom >= -travel;
+            enteringUp =
+                direction < 0 &&
+                step > 0 &&
+                rect.top < vh &&
+                rect.bottom >= -travel;
 
-} else {
-    // PC 기존 조건 그대로 유지
-    enteringDown =
-        direction > 0 &&
-        step < cards.length &&
-        rect.top >= -2 &&
-        rect.top <= window.innerHeight;
+        } else {
+            // PC 기존 조건 그대로 유지
+            enteringDown =
+                direction > 0 &&
+                step < cards.length &&
+                rect.top >= -2 &&
+                rect.top <= window.innerHeight;
 
-    enteringUp =
-        direction < 0 &&
-        step > 0 &&
-        rect.bottom >= 0 &&
-        rect.bottom <= window.innerHeight + 2;
-}
+            enteringUp =
+                direction < 0 &&
+                step > 0 &&
+                rect.bottom >= 0 &&
+                rect.bottom <= window.innerHeight + 2;
+        }
 
-if (enteringDown || enteringUp) {
-    consume(event);
-    enter();
-}
+        if (enteringDown || enteringUp) {
+            consume(event);
+            enter();
+        }
 
         // // 위에서 내려오는 경우
         // const enteringDown =
@@ -516,7 +514,19 @@ if (enteringDown || enteringUp) {
 
 
 
-    
+    // 태블릿 OUR VALUES 화면 위치 유지
+    window.addEventListener('scroll', () => {
+        if (!isTablet() || mode !== 'pinned') return;
+
+        const target = sectionTop();
+
+        if (Math.abs(window.scrollY - target) > 2) {
+            window.scrollTo({
+                top: target,
+                behavior: 'instant'
+            });
+        }
+    }, { passive: true });
     // 이탈이 완료되면 다시 진입할 수 있도록 초기화
     window.addEventListener('scroll', () => {
         if (mode !== 'leaving') return;
