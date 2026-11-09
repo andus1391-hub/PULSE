@@ -1458,3 +1458,29 @@ footer {
     font-family: 'Pretendard', sans-serif;
     font-weight: 400;
 }
+
+@media (min-width: 701px) and (max-width: 1200px) {
+    .pulse-quick-nav {
+        top:55%;
+        bottom: auto;
+        right: 7%;
+    }
+ .socials {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.8vw;
+    }
+
+    .socials span {
+        min-width: 0;
+        padding: 6px;
+    }
+
+    .socials h5 {
+        font-size: clamp(8px, 1.15vw, 14px);
+        padding: 2px 4px;
+        white-space: nowrap;
+        max-width: 100%;
+    }
+
+
+}
