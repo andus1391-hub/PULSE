@@ -2259,7 +2259,7 @@ footer {
 }
 
 #section3 .prize-title.shine::after {
-    animation: prize-blade-shine 1.5s ease-out 0.5s forwards;
+    animation: prize-blade-shine 2s ease-out 0.3s forwards;
 }
 
 @keyframes prize-blade-shine {
