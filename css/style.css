@@ -991,7 +991,7 @@ section {
     font-size: clamp(12px, 1.8vw, 32px);
 }
 
-@media(max-width:700px) {
+/* @media(max-width:700px) {
     .kit {
         height: 340vh
     }
@@ -1011,7 +1011,7 @@ section {
         font-size: 10px;
         padding: 8px 1px
     }
-}
+} */
 
 @media(prefers-reduced-motion:reduce) {
     .kit {
@@ -1047,7 +1047,7 @@ section {
     overflow: visible;
 }
 
-@media (max-width: 700px) {
+/* @media (max-width: 700px) {
     .kit-grid {
         grid-template-columns: repeat(5, minmax(0, 1fr));
         gap: 5px;
@@ -1058,7 +1058,7 @@ section {
         width: auto;
         justify-self: stretch;
     }
-}
+} */
 
 /* ======================================section4=========================== */
 
@@ -1881,7 +1881,7 @@ footer {
     }
 
 
-    .kit {
+    /* .kit {
         padding: 55px 6%
     }
 
@@ -1904,7 +1904,7 @@ footer {
     .kit figcaption {
         font-size: 16px;
         padding: 14px 2px
-    }
+    } */
 
     .energy {
         padding: 45px 0 60px
@@ -2467,7 +2467,7 @@ footer {
 }
 
 /* ========== OFFICIAL KIT 모바일 가로 스크롤 ========== */
-@media (max-width: 700px) {
+@media (max-width: 600px) {
 
     #kit.kit {
         height: 350svh;
@@ -2521,6 +2521,29 @@ footer {
 
     #kit .kit-stage h2 {
         font-size: 30px;
+        white-space: nowrap;
+    }
+}
+
+/* KIT → GALLERY 태블릿 스크롤 전환 */
+@media (min-width: 601px) and (max-width: 1200px) {
+    #kit.kit {
+        height: 420svh;
+        overflow: visible;
+    }
+
+    #kit .kit-stage {
+        position: sticky;
+        top: 0;
+        height: 100svh;
+        overflow: hidden;
+    }
+}
+/* 태블릿 SNS 텍스트 */
+@media (min-width: 701px) and (max-width: 1200px) {
+    .footer-links .socials span h5 {
+        font-size: 10px;
+        padding: 2px 3px;
         white-space: nowrap;
     }
 }
