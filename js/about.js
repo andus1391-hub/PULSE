@@ -93,6 +93,8 @@ if (navEntry?.type === 'reload') {
     const isMobile = () => window.matchMedia('(max-width: 700px) and (max-width: 1200px)').matches;
     const isTabletOrMobile = () =>
         window.matchMedia('(max-width: 1100px)').matches;
+    const isTablet = () =>
+    window.matchMedia('(min-width: 701px) and (max-width: 1200px)').matches;
 
     const SLIDE = 1000;
     const COPY = 350;
@@ -514,19 +516,23 @@ if (navEntry?.type === 'reload') {
 
 
 
-    // 태블릿 OUR VALUES 화면 위치 유지
-    window.addEventListener('scroll', () => {
-        if (!isTablet() || mode !== 'pinned') return;
+    // // 태블릿 OUR VALUES 화면 위치 유지
+    // window.addEventListener('scroll', () => {
+    //     if (!isTablet() || mode !== 'pinned') return;
 
-        const target = sectionTop();
+    //     const target = sectionTop();
 
-        if (Math.abs(window.scrollY - target) > 2) {
-            window.scrollTo({
-                top: target,
-                behavior: 'instant'
-            });
-        }
-    }, { passive: true });
+    //     if (Math.abs(window.scrollY - target) > 2) {
+    //         window.scrollTo({
+    //             top: target,
+    //             behavior: 'instant'
+    //         });
+    //     }
+    // }, { passive: true });
+
+
+
+    
     // 이탈이 완료되면 다시 진입할 수 있도록 초기화
     window.addEventListener('scroll', () => {
         if (mode !== 'leaving') return;
