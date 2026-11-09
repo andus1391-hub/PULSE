@@ -2547,3 +2547,11 @@ footer {
         white-space: nowrap;
     }
 }
+
+@media (min-width: 701px) and (max-width: 1200px) {
+    .pulse-quick-nav {
+        right: 12%;
+        top: 300px;
+        bottom: min(732px, calc(100vh - 210px));
+    }
+}
