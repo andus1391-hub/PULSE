@@ -1350,35 +1350,53 @@ footer {
 
 
     /* 모바일 OUR VALUES 카드 */
+/* 모바일 OUR VALUES 카드 */
 .value-card {
-    top: 22%;
-    width: 30%;
-    height: 60%;
+    top: 30%;
+    left: 50%;
+    right: auto;
+
+    width: min(82vw, 44dvh);
+    height: auto;
+    aspect-ratio: 1 / 1;
     max-width: none;
-    aspect-ratio: auto;
+
+    transform: translate3d(-50%, 110vh, 0);
+    transition: transform .5s ease-in-out;
 }
 
-/* 왼쪽 카드 */
-.value-01 {
-    left: 2%;
+.value-card.is-visible {
+    transform: translate3d(-50%, 0, 0);
 }
 
-/* 오른쪽 카드 */
-.value-02 {
-    right: 2%;
-}
-
-/* 가운데 카드 */
+/* 세 카드 모두 동일한 중앙 위치 */
+.value-01,
+.value-02,
 .value-03 {
     left: 50%;
+    right: auto;
+    transform: translate3d(-50%, 110vh, 0);
 }
+
+.value-01.is-visible,
+.value-02.is-visible,
+.value-03.is-visible {
+    transform: translate3d(-50%, 0, 0);
+}
+
+/* 다음 카드가 이전 카드 위로 올라오도록 */
+.value-01 { z-index: 1; }
+.value-02 { z-index: 2; }
+.value-03 { z-index: 3; }
+
+
 
 /* 카드 상단 영문 제목 */
 .value-card h3 {
     left: 5%;
     top: 4%;
     width: 90%;
-    font-size: clamp(12px, 2.3vw, 20px);
+    font-size: clamp(18px, 4.5vw, 25px);
     gap: 4px;
     white-space: nowrap;
 }
