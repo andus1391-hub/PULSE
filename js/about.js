@@ -157,16 +157,33 @@ if (navEntry?.type === 'reload') {
         const check = () => {
             if (mode !== 'entering') return;
 
-            if (Math.abs(window.scrollY - target) <= 2) {
+            const distance = Math.abs(window.scrollY - target);
+
+            if (distance <= 2) {
                 mode = 'pinned';
                 nextAllowed = performance.now() + 250;
                 update();
-            } else {
-                requestAnimationFrame(check);
+                return;
             }
+
+            requestAnimationFrame(check);
         };
 
         requestAnimationFrame(check);
+
+        // const check = () => {
+        //     if (mode !== 'entering') return;
+
+        //     if (Math.abs(window.scrollY - target) <= 2) {
+        //         mode = 'pinned';
+        //         nextAllowed = performance.now() + 250;
+        //         update();
+        //     } else {
+        //         requestAnimationFrame(check);
+        //     }
+        // };
+
+        // requestAnimationFrame(check);
     }
 
     // async function move(direction) {
@@ -229,7 +246,7 @@ if (navEntry?.type === 'reload') {
         const mobile = isMobile();
         const index = direction > 0 ? step : step - 1;
 
-       if (index < 0 || index >= cards.length) return;
+        if (index < 0 || index >= cards.length) return;
 
         busy = true;
         update();
@@ -279,40 +296,40 @@ if (navEntry?.type === 'reload') {
             //         step = 0;
             //     }
             if (mobile) {
-    const card = cards[index];
+                const card = cards[index];
 
-    if (direction > 0) {
-        // 01 → 02 → 03 순차 등장
-        if (index === 2) {
-            heading.classList.add('values-title-hidden');
-        }
+                if (direction > 0) {
+                    // 01 → 02 → 03 순차 등장
+                    if (index === 2) {
+                        heading.classList.add('values-title-hidden');
+                    }
 
-        card.classList.add('is-visible');
+                    card.classList.add('is-visible');
 
-        await wait(MOBILE_SLIDE);
-        if (token !== generation) return;
+                    await wait(MOBILE_SLIDE);
+                    if (token !== generation) return;
 
-        card.classList.add('text-visible');
+                    card.classList.add('text-visible');
 
-        await wait(MOBILE_COPY);
-        if (token !== generation) return;
+                    await wait(MOBILE_COPY);
+                    if (token !== generation) return;
 
-        step++;
+                    step++;
 
-    } else {
-        // 03 → 02 → 01 역순 퇴장
-        card.classList.remove('text-visible');
-        card.classList.remove('is-visible');
+                } else {
+                    // 03 → 02 → 01 역순 퇴장
+                    card.classList.remove('text-visible');
+                    card.classList.remove('is-visible');
 
-        if (index === 2) {
-            heading.classList.remove('values-title-hidden');
-        }
+                    if (index === 2) {
+                        heading.classList.remove('values-title-hidden');
+                    }
 
-        await wait(MOBILE_SLIDE);
-        if (token !== generation) return;
+                    await wait(MOBILE_SLIDE);
+                    if (token !== generation) return;
 
-        step--;
-    }
+                    step--;
+                }
 
 
             } else {
@@ -577,6 +594,31 @@ if (navEntry?.type === 'reload') {
         }
 
         // PC·모바일 기존 처리
+
+        // 모바일 OUR VALUES 진입 시 스크롤 차단
+        if (isMobile() && mode === 'free' && ready()) {
+            const rect = section.getBoundingClientRect();
+
+            const approaching =
+                (delta > 0 && step < cards.length &&
+                    rect.top <= window.innerHeight &&
+                    rect.bottom > 0) ||
+                (delta < 0 && step > 0 &&
+                    rect.top < window.innerHeight &&
+                    rect.bottom > 0);
+
+            if (approaching) {
+                consume(event);
+
+                if (!touchHandled && Math.abs(delta) >= 35) {
+                    touchHandled = true;
+                    enter();
+                }
+                return;
+            }
+        }
+
+        // PC·모바일 기존 처리
         if (mode === 'entering' || busy) {
             consume(event);
             return;
@@ -595,6 +637,9 @@ if (navEntry?.type === 'reload') {
             touchHandled = true;
         }
     }, { passive: false, capture: true });
+
+
+
 
     // window.addEventListener('touchmove', event => {
     //     if (touchY === null || event.touches.length !== 1) return;
