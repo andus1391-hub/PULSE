@@ -1356,7 +1356,7 @@ footer {
     left: 50%;
     right: auto;
 
-    width: min(82vw, 44dvh);
+    width: min(82vw, 44svh);
     height: auto;
     aspect-ratio: 1 / 1;
     max-width: none;
