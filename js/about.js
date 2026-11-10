@@ -619,23 +619,33 @@ if (navEntry?.type === 'reload') {
         }
 
         // PC·모바일 기존 처리
-        if (mode === 'entering' || busy) {
-            consume(event);
-            return;
-        }
+   if (isMobile() && mode === 'pinned') {
+    const direction = Math.sign(delta);
+    consume(event);
 
-        if (touchHandled && mode === 'pinned') {
-            consume(event);
-            return;
-        }
+    if (touchHandled || Math.abs(delta) < 35) return;
 
-        if (Math.abs(delta) < 35) return;
+    touchHandled = true;
+    handle(direction, event, true);
+    return;
+}
 
-        handle(Math.sign(delta), event, true);
+if (touchHandled && mode === 'pinned') {
+    consume(event);
+    return;
+}
 
-        if (event.defaultPrevented) {
-            touchHandled = true;
-        }
+if (Math.abs(delta) < 35) return;
+
+handle(Math.sign(delta), event, true);
+
+if (event.defaultPrevented) {
+    touchHandled = true;
+}
+
+
+
+
     }, { passive: false, capture: true });
 
 
