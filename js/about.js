@@ -94,9 +94,15 @@ if (navEntry?.type === 'reload') {
     const isTabletOrMobile = () =>
         window.matchMedia('(max-width: 1100px)').matches;
     const isTablet = () =>
-    window.matchMedia('(min-width: 701px) and (max-width: 1200px)').matches;
+        window.matchMedia('(min-width: 701px) and (max-width: 1200px)').matches;
 
     const SLIDE = 1000;
+    // 모바일 변경 추가
+    const MOBILE_SLIDE = 500;
+    const MOBILE_COPY = 180;
+    const MOBILE_GAP = 120;
+    // 모바일 변경 추가
+
     const COPY = 350;
     const QUIET = 200;
 
@@ -223,7 +229,7 @@ if (navEntry?.type === 'reload') {
         const mobile = isMobile();
         const index = direction > 0 ? step : step - 1;
 
-        if (!mobile && (index < 0 || index >= cards.length)) return;
+       if (index < 0 || index >= cards.length) return;
 
         busy = true;
         update();
@@ -231,47 +237,83 @@ if (navEntry?.type === 'reload') {
         const token = generation;
 
         try {
+            // if (mobile) {
+            //     // 모바일: 3장 동시 등장
+            //     if (direction > 0) {
+            //         heading.classList.add('values-title-hidden');
+
+            //         cards.forEach(card => {
+            //             card.classList.add('is-visible');
+            //         });
+
+            //         await wait(SLIDE);
+            //         if (token !== generation) return;
+
+            //         cards.forEach(card => {
+            //             card.classList.add('text-visible');
+            //         });
+
+            //         await wait(COPY);
+            //         if (token !== generation) return;
+
+            //         step = cards.length;
+
+            //     } else {
+            //         // 모바일: 3장 동시 퇴장
+            //         cards.forEach(card => {
+            //             card.classList.remove('text-visible');
+            //         });
+
+            //         await wait(COPY);
+            //         if (token !== generation) return;
+
+            //         cards.forEach(card => {
+            //             card.classList.remove('is-visible');
+            //         });
+
+            //         heading.classList.remove('values-title-hidden');
+
+            //         await wait(SLIDE);
+            //         if (token !== generation) return;
+
+            //         step = 0;
+            //     }
             if (mobile) {
-                // 모바일: 3장 동시 등장
-                if (direction > 0) {
-                    heading.classList.add('values-title-hidden');
+    const card = cards[index];
 
-                    cards.forEach(card => {
-                        card.classList.add('is-visible');
-                    });
+    if (direction > 0) {
+        // 01 → 02 → 03 순차 등장
+        if (index === 2) {
+            heading.classList.add('values-title-hidden');
+        }
 
-                    await wait(SLIDE);
-                    if (token !== generation) return;
+        card.classList.add('is-visible');
 
-                    cards.forEach(card => {
-                        card.classList.add('text-visible');
-                    });
+        await wait(MOBILE_SLIDE);
+        if (token !== generation) return;
 
-                    await wait(COPY);
-                    if (token !== generation) return;
+        card.classList.add('text-visible');
 
-                    step = cards.length;
+        await wait(MOBILE_COPY);
+        if (token !== generation) return;
 
-                } else {
-                    // 모바일: 3장 동시 퇴장
-                    cards.forEach(card => {
-                        card.classList.remove('text-visible');
-                    });
+        step++;
 
-                    await wait(COPY);
-                    if (token !== generation) return;
+    } else {
+        // 03 → 02 → 01 역순 퇴장
+        card.classList.remove('text-visible');
+        card.classList.remove('is-visible');
 
-                    cards.forEach(card => {
-                        card.classList.remove('is-visible');
-                    });
+        if (index === 2) {
+            heading.classList.remove('values-title-hidden');
+        }
 
-                    heading.classList.remove('values-title-hidden');
+        await wait(MOBILE_SLIDE);
+        if (token !== generation) return;
 
-                    await wait(SLIDE);
-                    if (token !== generation) return;
+        step--;
+    }
 
-                    step = 0;
-                }
 
             } else {
                 // PC: 기존 순차 등장 및 퇴장
@@ -315,7 +357,7 @@ if (navEntry?.type === 'reload') {
         } finally {
             if (token === generation) {
                 busy = false;
-                nextAllowed = performance.now() + 300;
+                nextAllowed = performance.now() + (mobile ? MOBILE_GAP : 300);
                 update();
             }
         }
@@ -483,74 +525,76 @@ if (navEntry?.type === 'reload') {
 
 
 
+    // 태블릿 수정
+
     window.addEventListener('touchmove', event => {
-    if (touchY === null || event.touches.length !== 1) return;
+        if (touchY === null || event.touches.length !== 1) return;
 
-    const delta = touchY - event.touches[0].clientY;
+        const delta = touchY - event.touches[0].clientY;
 
-    // 태블릿: PC와 같은 카드 진행 로직 사용
-    if (isTablet()) {
+        // 태블릿: PC와 같은 카드 진행 로직 사용
+        if (isTablet()) {
+            if (mode === 'entering' || busy) {
+                consume(event);
+                return;
+            }
+
+            if (mode === 'pinned') {
+                if (touchHandled) {
+                    consume(event);
+                    return;
+                }
+
+                if (Math.abs(delta) < 35) {
+                    consume(event);
+                    return;
+                }
+
+                touchHandled = true;
+                handle(Math.sign(delta), event, true);
+                return;
+            }
+
+            const rect = section.getBoundingClientRect();
+            const approaching =
+                ready() &&
+                ((delta > 0 && step < cards.length &&
+                    rect.top <= window.innerHeight && rect.bottom > 0) ||
+                    (delta < 0 && step > 0 &&
+                        rect.top < window.innerHeight && rect.bottom > 0));
+
+            if (approaching) {
+                consume(event);
+
+                if (!touchHandled && Math.abs(delta) >= 35) {
+                    touchHandled = true;
+                    handle(Math.sign(delta), event, true);
+                }
+                return;
+            }
+
+            return;
+        }
+
+        // PC·모바일 기존 처리
         if (mode === 'entering' || busy) {
             consume(event);
             return;
         }
 
-        if (mode === 'pinned') {
-            if (touchHandled) {
-                consume(event);
-                return;
-            }
-
-            if (Math.abs(delta) < 35) {
-                consume(event);
-                return;
-            }
-
-            touchHandled = true;
-            handle(Math.sign(delta), event, true);
-            return;
-        }
-
-        const rect = section.getBoundingClientRect();
-        const approaching =
-            ready() &&
-            ((delta > 0 && step < cards.length &&
-              rect.top <= window.innerHeight && rect.bottom > 0) ||
-             (delta < 0 && step > 0 &&
-              rect.top < window.innerHeight && rect.bottom > 0));
-
-        if (approaching) {
+        if (touchHandled && mode === 'pinned') {
             consume(event);
-
-            if (!touchHandled && Math.abs(delta) >= 35) {
-                touchHandled = true;
-                handle(Math.sign(delta), event, true);
-            }
             return;
         }
 
-        return;
-    }
+        if (Math.abs(delta) < 35) return;
 
-    // PC·모바일 기존 처리
-    if (mode === 'entering' || busy) {
-        consume(event);
-        return;
-    }
+        handle(Math.sign(delta), event, true);
 
-    if (touchHandled && mode === 'pinned') {
-        consume(event);
-        return;
-    }
-
-    if (Math.abs(delta) < 35) return;
-
-    handle(Math.sign(delta), event, true);
-
-    if (event.defaultPrevented) {
-        touchHandled = true;
-    }
-}, { passive: false, capture: true });
+        if (event.defaultPrevented) {
+            touchHandled = true;
+        }
+    }, { passive: false, capture: true });
 
     // window.addEventListener('touchmove', event => {
     //     if (touchY === null || event.touches.length !== 1) return;
@@ -574,6 +618,9 @@ if (navEntry?.type === 'reload') {
     //         touchHandled = true;
     //     }
     // }, { passive: false, capture: true });
+
+
+    // 태블릿수정
 
     window.addEventListener('touchend', () => {
         touchY = null;
