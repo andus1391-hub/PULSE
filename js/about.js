@@ -49,16 +49,21 @@ if (navEntry?.type === 'reload') {
     function setState(value) { state = value; stage.dataset.state = value; }
     function measure() { const s = stage.getBoundingClientRect(), r = word.getBoundingClientRect(); origin = { x: r.left - s.left + r.width / 2, y: r.top - s.top + r.height / 2, font: parseFloat(getComputedStyle(word).fontSize) }; cover.setAttribute('viewBox', `0 0 ${stage.clientWidth} ${stage.clientHeight}`); $('maskBase').setAttribute('width', stage.clientWidth); $('maskBase').setAttribute('height', stage.clientHeight); }
     function paint(p) { progress = p; const w = stage.clientWidth, h = stage.clientHeight, e = ease(p); $('maskWord').setAttribute('x', origin.x + (w / 2 - origin.x) * e); $('maskWord').setAttribute('y', origin.y + (h / 2 - origin.y) * e); $('maskWord').setAttribute('font-size', origin.font * (1 + e * 32)); cover.style.opacity = String(1 - clamp((p - .78) / .22)); caption.style.opacity = String(clamp((p - .90) / .10)); }
-    function tick(now) { const t = clamp((now - startTime) / duration); paint(state === 'forward' ? t : 1 - t); if (t < 1) { requestAnimationFrame(tick); return; } if (state === 'forward') { setState('done'); cover.style.opacity = '0'; caption.style.opacity = '1'; caption.setAttribute('aria-hidden', 'false'); } else { setState('idle'); movie.style.opacity = '0'; cover.style.opacity = '0'; caption.style.opacity = '0'; word.style.visibility = 'visible'; fading.forEach(el => { el.style.opacity = '1'; el.inert = false; }); count = 0; lastWheel = -Infinity; } }
+    function tick(now) { const t = clamp((now - startTime) / duration); paint(state === 'forward' ? t : 1 - t); if (t < 1) { requestAnimationFrame(tick); return; } if (state === 'forward') { setState('done'); updateHome(); cover.style.opacity = '0'; caption.style.opacity = '1'; caption.setAttribute('aria-hidden', 'false'); } else { setState('idle'); movie.style.opacity = '0'; cover.style.opacity = '0'; caption.style.opacity = '0'; word.style.visibility = 'visible'; fading.forEach(el => { el.style.opacity = '1'; el.inert = false; }); count = 0; lastWheel = -Infinity; } }
     function start() { if (state !== 'idle') return; measure(); setState('forward'); movie.style.opacity = '1'; movie.play().catch(() => { }); paint(0); word.style.visibility = 'hidden'; fading.forEach(el => { el.style.transition = 'opacity .28s ease'; el.style.opacity = '0'; el.inert = true; }); photo.style.opacity = '0'; startTime = performance.now(); requestAnimationFrame(tick); }
 
-// 역재생 애니메이션
+    // 역재생 애니메이션
     // function reverse() { if (state !== 'done') return; measure(); setState('reverse'); caption.setAttribute('aria-hidden', 'true'); startTime = performance.now(); requestAnimationFrame(tick); }
+    // 역재생 애니메이션
+
+    // 역재생 되지않고 영상만 재생
     function reverse() {
-      if (state === 'done') return;}
+        if (state === 'done') return;
+    }
+    // 역재생 되지않고 영상만 재생
 
     function atTop() { return stage.getBoundingClientRect().top >= -1; }
-    function handleDirection(delta, event, discrete = false) { if (!atTop()) return; if (state === 'forward' || state === 'reverse') { event.preventDefault(); return; } if (state === 'idle' && delta > 0) { event.preventDefault(); const now = performance.now(); if (discrete || now - lastWheel > 220) { lastWheel = now; if (++count >= 2) start(); } } else if (state === 'done' && delta < 0) { event.preventDefault(); reverse(); } }
+    function handleDirection(delta, event, discrete = false) { if (!atTop()) return; if (state === 'forward' || state === 'reverse') { event.preventDefault(); return; } if (state === 'idle' && delta > 0) { event.preventDefault(); const now = performance.now(); if (discrete || now - lastWheel > 220) { lastWheel = now; if (++count >= 2) start(); } } }
     window.addEventListener('wheel', e => handleDirection(e.deltaY, e), { passive: false });
     window.addEventListener('keydown', e => { if (e.target.closest('a,button,input,textarea,select,[contenteditable]')) return; const down = ['ArrowDown', 'PageDown', ' '].includes(e.key) && !e.shiftKey, up = ['ArrowUp', 'PageUp', 'Home'].includes(e.key) || (e.key === ' ' && e.shiftKey); if (down || up) handleDirection(down ? 1 : -1, e, true); });
     stage.addEventListener('touchstart', e => { touchY = e.touches[0].clientY; }, { passive: true });
@@ -72,9 +77,44 @@ if (navEntry?.type === 'reload') {
     let previousY = scrollY;
 
     // window.addEventListener('scroll', () => { if (state === 'done' && scrollY < previousY && atTop()) reverse(); previousY = scrollY; }, { passive: true });
-    
+
     // const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }), { threshold: .12 });
     // document.querySelectorAll('.value-card').forEach(card => observer.observe(card));
+
+    // 영상 섹션 스크롤 위치에 따라 HOME 표시
+    // HOME은 아래 섹션에서 다시 올라왔을 때만 표시
+    const header = $('header');
+    let hasLeftVideo = false;
+    let homeVisible = false;
+
+    function updateHome() {
+        header.style.transition = 'opacity 3s ease';
+        const rect = stage.getBoundingClientRect();
+        const vh = window.innerHeight;
+
+        // 영상 섹션을 완전히 벗어났을 때 재진입 허용
+        if (rect.bottom <= 0) {
+            hasLeftVideo = true;
+        }
+
+        // 영상 섹션에 다시 50% 이상 진입하면 HOME 표시
+        const showHome =
+            state === 'done' &&
+            hasLeftVideo &&
+            rect.bottom >= vh * 0.5 &&
+            rect.top < vh;
+
+        if (homeVisible !== showHome) {
+            homeVisible = showHome;
+            header.style.opacity = showHome ? '1' : '0';
+            header.inert = !showHome;
+        }
+    }
+
+    window.addEventListener('scroll', updateHome, { passive: true });
+    window.addEventListener('resize', updateHome);
+
+
     setState('idle'); measure();
 })();
 
