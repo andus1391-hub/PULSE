@@ -51,7 +51,12 @@ if (navEntry?.type === 'reload') {
     function paint(p) { progress = p; const w = stage.clientWidth, h = stage.clientHeight, e = ease(p); $('maskWord').setAttribute('x', origin.x + (w / 2 - origin.x) * e); $('maskWord').setAttribute('y', origin.y + (h / 2 - origin.y) * e); $('maskWord').setAttribute('font-size', origin.font * (1 + e * 32)); cover.style.opacity = String(1 - clamp((p - .78) / .22)); caption.style.opacity = String(clamp((p - .90) / .10)); }
     function tick(now) { const t = clamp((now - startTime) / duration); paint(state === 'forward' ? t : 1 - t); if (t < 1) { requestAnimationFrame(tick); return; } if (state === 'forward') { setState('done'); cover.style.opacity = '0'; caption.style.opacity = '1'; caption.setAttribute('aria-hidden', 'false'); } else { setState('idle'); movie.style.opacity = '0'; cover.style.opacity = '0'; caption.style.opacity = '0'; word.style.visibility = 'visible'; fading.forEach(el => { el.style.opacity = '1'; el.inert = false; }); count = 0; lastWheel = -Infinity; } }
     function start() { if (state !== 'idle') return; measure(); setState('forward'); movie.style.opacity = '1'; movie.play().catch(() => { }); paint(0); word.style.visibility = 'hidden'; fading.forEach(el => { el.style.transition = 'opacity .28s ease'; el.style.opacity = '0'; el.inert = true; }); photo.style.opacity = '0'; startTime = performance.now(); requestAnimationFrame(tick); }
-    function reverse() { if (state !== 'done') return; measure(); setState('reverse'); caption.setAttribute('aria-hidden', 'true'); startTime = performance.now(); requestAnimationFrame(tick); }
+
+// 역재생 애니메이션
+    // function reverse() { if (state !== 'done') return; measure(); setState('reverse'); caption.setAttribute('aria-hidden', 'true'); startTime = performance.now(); requestAnimationFrame(tick); }
+    function reverse() {
+      if (state === 'done') return;}
+
     function atTop() { return stage.getBoundingClientRect().top >= -1; }
     function handleDirection(delta, event, discrete = false) { if (!atTop()) return; if (state === 'forward' || state === 'reverse') { event.preventDefault(); return; } if (state === 'idle' && delta > 0) { event.preventDefault(); const now = performance.now(); if (discrete || now - lastWheel > 220) { lastWheel = now; if (++count >= 2) start(); } } else if (state === 'done' && delta < 0) { event.preventDefault(); reverse(); } }
     window.addEventListener('wheel', e => handleDirection(e.deltaY, e), { passive: false });
@@ -65,7 +70,9 @@ if (navEntry?.type === 'reload') {
     document.fonts.ready.then(() => { measure(); if (state !== 'idle') paint(progress); });
     // Returning by scrollbar/touch from lower sections restores the intro at its natural position.
     let previousY = scrollY;
-    window.addEventListener('scroll', () => { if (state === 'done' && scrollY < previousY && atTop()) reverse(); previousY = scrollY; }, { passive: true });
+
+    // window.addEventListener('scroll', () => { if (state === 'done' && scrollY < previousY && atTop()) reverse(); previousY = scrollY; }, { passive: true });
+    
     // const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); observer.unobserve(entry.target); } }), { threshold: .12 });
     // document.querySelectorAll('.value-card').forEach(card => observer.observe(card));
     setState('idle'); measure();
@@ -619,29 +626,29 @@ if (navEntry?.type === 'reload') {
         }
 
         // PC·모바일 기존 처리
-   if (isMobile() && mode === 'pinned') {
-    const direction = Math.sign(delta);
-    consume(event);
+        if (isMobile() && mode === 'pinned') {
+            const direction = Math.sign(delta);
+            consume(event);
 
-    if (touchHandled || Math.abs(delta) < 35) return;
+            if (touchHandled || Math.abs(delta) < 35) return;
 
-    touchHandled = true;
-    handle(direction, event, true);
-    return;
-}
+            touchHandled = true;
+            handle(direction, event, true);
+            return;
+        }
 
-if (touchHandled && mode === 'pinned') {
-    consume(event);
-    return;
-}
+        if (touchHandled && mode === 'pinned') {
+            consume(event);
+            return;
+        }
 
-if (Math.abs(delta) < 35) return;
+        if (Math.abs(delta) < 35) return;
 
-handle(Math.sign(delta), event, true);
+        handle(Math.sign(delta), event, true);
 
-if (event.defaultPrevented) {
-    touchHandled = true;
-}
+        if (event.defaultPrevented) {
+            touchHandled = true;
+        }
 
 
 
