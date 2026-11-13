@@ -1,3 +1,20 @@
+// 모바일 전용 영상 교체
+(() => {
+    const movie = document.getElementById('movie');
+    if (!movie) return;
+
+    const isMobile = window.matchMedia('(max-width: 600px)').matches;
+
+    if (isMobile) {
+        movie.querySelector('source').src = './images/about/about_b_mobile.mp4';
+        movie.load();
+    }
+})();
+
+
+
+
+
 // 새로고침 시 이전 스크롤 위치 복원 방지
 if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
@@ -88,6 +105,7 @@ if (navEntry?.type === 'reload') {
     let homeVisible = false;
 
     function updateHome() {
+        // 헤더 하단섹션에서 위로 올라왔을 때 헤더 천천히 나타나게 초 수 조절
         header.style.transition = 'opacity 3s ease';
         const rect = stage.getBoundingClientRect();
         const vh = window.innerHeight;
